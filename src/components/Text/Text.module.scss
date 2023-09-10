@@ -1,0 +1,19 @@
+@import './../../styles/styles.scss';
+
+.text-color {
+    &-primary {
+        color: $text-primary;
+    }
+
+    &-accent {
+        color: $text-accent;
+    }
+
+    &-secondary {
+        color: $text-secondary;
+    }
+
+    &-inherit {
+        color: inherit;
+    }
+}

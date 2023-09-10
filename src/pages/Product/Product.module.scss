@@ -1,0 +1,103 @@
+@import './../../styles/styles.scss';
+
+.product-container {
+    @include column-flex;
+    width: 90%;
+    height: 100%;
+    margin: auto;
+    gap: $space-xl;
+}
+
+.back-button-container {
+    @include row-flex;
+    width: 100%;
+    margin-top: 100px;
+}
+
+.back-button {
+    @include row-flex;
+    width: 100px;
+    cursor: pointer;
+    justify-content: center;
+}
+
+.back-button-text {
+    margin: auto auto;
+}
+
+.product-card {
+    @include row-flex;
+    margin-top: 40px;
+    gap: $space-xl;
+    width: 100%;
+}
+
+.product-card-image {
+    height: min(90vw, 90vh, 600px);
+    width: min(90vw, 90vh, 600px);
+}
+
+.product-card-info {
+    @include column-flex;
+    flex-grow: 1;
+    height: 100%;
+    gap: $space-xl;
+}
+
+.product-card-info-top {
+    @include column-flex;
+    width: 100%;
+    gap: $space-m;
+    margin-bottom: $space-xs
+}
+
+.product-card-info-bottom {
+    @include column-flex;
+    gap: $space-xl;
+    margin-top: $space-l;
+}
+
+.button-container {
+    @include row-flex;
+    gap: $space-xl;
+}
+
+.image-container {
+    height: min(90vw, 90vh, 600px);
+    width: min(90vw, 90vh, 600px);
+}
+
+.related-container {
+    @include column-flex;
+    gap: $space-m;
+    width: 100%;
+}
+
+.grid-item {
+    display: flex;
+}
+
+.products-grid {
+    width: 100%;
+    margin-top: $space-xl;
+    display: grid;
+    place-items: center;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    column-gap: 30px;
+    row-gap: 30px;
+}
+
+:global(.infinite-scroll-component__outerdiv) {
+    width: 100%;
+}
+
+.horizontal-line {
+    margin-top: 8px;
+    width: 100%;
+    height: 8px;
+    border-top: 2px solid $brand;
+}
+
+.main-products-loader {
+    margin: 24px 24px;
+}
