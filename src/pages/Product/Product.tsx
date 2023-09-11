@@ -9,6 +9,7 @@ import Loader from 'components/Loader';
 import LoadingBlock from 'components/LoadingBlock';
 import Text from 'components/Text';
 import ArrowLeftIcon from 'components/icons/ArrowLeftIcon';
+import config from 'config/config';
 import { product, category } from 'pages/Main';
 import styles from './Product.module.scss';
 
@@ -28,7 +29,7 @@ const Product = () => {
         const fetch = async () => {
             const result = await axios({
                 method: 'get',
-                url: 'https://fake-store-api.glitch.me/api/categories'
+                url: config.CATEGORIES_URL
             });
 
             setCategiries(result.data);
@@ -41,22 +42,23 @@ const Product = () => {
         const currentCategory = categories.find((c) => c.name == data.category);
         const result = await axios({
             method: 'get',
-            url: `https://fake-store-api.glitch.me/api/products`,
+            url: config.PRODUCTS_URL,
             params: {
                 offset: BATCH_SIZE * batches,
                 limit: BATCH_SIZE,
-                include: currentCategory || '',
+                include: currentCategory?.id || '',
             }
         });
+        const fetchedProducts = result.data[0];
         setBatches(batches + 1);
-        setHasMore(result.data.length == BATCH_SIZE);
-        setProducts([...products, ...result.data]);
+        setHasMore(fetchedProducts.length == BATCH_SIZE);
+        setProducts([...products, ...fetchedProducts]);
     }
 
     const fetchProduct = async () => {
         const result = await axios({
             method: 'get',
-            url: `https://fake-store-api.glitch.me/api/products/${id}`
+            url: `${config.PRODUCT_URL}${id}`
         });
         setData(result.data);
         setIsLoaded(true);

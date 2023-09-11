@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import Text from 'components/Text';
 import Logo from 'components/icons/Logo';
 
@@ -20,8 +20,9 @@ const Header: React.FC<HeaderOptions> = ({ links, additonal }) => {
         <div className={styles['header']}>
             <div className={styles['header-usable-area']}>
                 <div className={styles['header-logo']}>
-                    <Logo />
-
+                    <Link to={'/'}>
+                        <Logo />
+                    </Link>
                 </div>
                 <div className={styles['header-links-container']}>
                     <div className={styles['header-links']}>

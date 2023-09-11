@@ -10,7 +10,9 @@ import Input from 'components/Input';
 import Loader from 'components/Loader';
 import MultiDropdown from 'components/MultiDropdown';
 import Text from 'components/Text';
+import config from 'config/config';
 import styles from './Main.module.scss';
+
 
 export type product = {
     id: number,
@@ -43,6 +45,7 @@ const Main = () => {
         include: [],
         substring: ''
     });
+    const [totalProducts, setTotalProducts] = React.useState(0);
     const BATCH_SIZE = 24;
     const navigate = useNavigate();
 
@@ -50,7 +53,7 @@ const Main = () => {
         const fetch = async () => {
             const result = await axios({
                 method: 'get',
-                url: 'https://fake-store-api.glitch.me/api/categories'
+                url: config.CATEGORIES_URL
             });
 
             setCategiries(result.data);
@@ -62,7 +65,7 @@ const Main = () => {
     const fetchProducts = async () => {
         const result = await axios({
             method: 'get',
-            url: `https://fake-store-api.glitch.me/api/products`,
+            url: config.PRODUCTS_URL,
             params: {
                 offset: BATCH_SIZE * batches,
                 limit: BATCH_SIZE,
@@ -70,15 +73,17 @@ const Main = () => {
                 substring: searchOptions.substring
             }
         });
+        const fetchedProducts = result.data[0];
+        setTotalProducts(result.data[1]);
         setBatches(batches + 1);
-        setHasMore(result.data.length == BATCH_SIZE);
-        setProducts([...products, ...result.data]);
+        setHasMore(fetchedProducts.length == BATCH_SIZE);
+        setProducts([...products, ...fetchedProducts]);
     }
 
     const prefetchProducts = async () => {
         const result = await axios({
             method: 'get',
-            url: `https://fake-store-api.glitch.me/api/products`,
+            url: config.PRODUCTS_URL,
             params: {
                 offset: 0,
                 limit: BATCH_SIZE,
@@ -86,9 +91,11 @@ const Main = () => {
                 substring: searchOptions.substring
             }
         });
+        const fetchedProducts = result.data[0];
+        setTotalProducts(result.data[1]);
         setBatches(1);
-        setHasMore(result.data.length == BATCH_SIZE);
-        setProducts(result.data);
+        setHasMore(fetchedProducts.length == BATCH_SIZE);
+        setProducts(fetchedProducts);
     }
 
     React.useEffect(() => {
@@ -122,6 +129,7 @@ const Main = () => {
                     value={[]} onChange={(value) => { setIncludeCategories(value.map((v) => v.key)) }}
                     getTitle={(options) => options.sort().map((opt) => opt.value).join(', ')} />
             </div>
+            <Text view='p-20' weight='bold' className={styles['total-text']}>Total products: {totalProducts}</Text>
             <InfiniteScroll
                 className='fullwidth'
                 dataLength={products.length} //This is important field to render the next data
@@ -134,7 +142,7 @@ const Main = () => {
                 }
             >
                 {<div className={styles['products-grid']}>
-                    {products.map((product: any) => (
+                    {products.map((product: product) => (
                         <div className={styles['grid-item']} key={product.id}>
                             <Card image={product.images[0]} title={product.title} subtitle={product.description} contentSlot={`$${product.price}`} captionSlot={product.subtitle}
                                 actionSlot={<Button onClick={() => alert(`Added ${product.id}`)}>Add to cart</Button>} onClick={() => { navigate(`/product/${product.id}`) }} />
