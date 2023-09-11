@@ -43,7 +43,7 @@ const Product = () => {
             params: {
                 offset: BATCH_SIZE * batches,
                 limit: BATCH_SIZE,
-                include: categories.find((c) => c.name) ? categories.find((c) => c.name).id : '',
+                include: categories.find((c) => c.name == data.category) ? categories.find((c) => c.name == data.category).id : '',
             }
         });
         setBatches(batches + 1);
@@ -76,7 +76,7 @@ const Product = () => {
     return (
         <div className={styles['product-container']}>
             <div className={styles['back-button-container']}>
-                <div className={styles['back-button']} onClick={() => { navigate(-1) }}>
+                <div className={styles['back-button']} onClick={() => { navigate('/') }}>
                     <ArrowLeftIcon />
                     <div className={styles['back-button-text']}>
                         Back
@@ -105,9 +105,9 @@ const Product = () => {
                 </div>
             </div>
 
-            <div className={styles['related-container']}>
+            {isLoaded && <div className={styles['related-container']}>
                 <Text view='p-20' weight='bold'>Related Items</Text>
-                {isLoaded && <InfiniteScroll
+                <InfiniteScroll
                     className='fullwidth'
                     dataLength={products.length} //This is important field to render the next data
                     next={fetchProducts}
@@ -126,8 +126,8 @@ const Product = () => {
                             </div>
                         ))}
                     </div>}
-                </InfiniteScroll>}
-            </div>
+                </InfiniteScroll>
+            </div>}
         </div>
     )
 }
