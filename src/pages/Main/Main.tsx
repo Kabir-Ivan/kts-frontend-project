@@ -12,14 +12,34 @@ import MultiDropdown from 'components/MultiDropdown';
 import Text from 'components/Text';
 import styles from './Main.module.scss';
 
+export type product = {
+    id: number,
+    title: string,
+    subtitle: string,
+    description: string,
+    images: Array<string>,
+    category: string,
+    price: number
+}
+
+export type searchOptions = {
+    include: Array<string>,
+    substring: string
+}
+
+export type category = {
+    id: number,
+    name: string
+}
+
 const Main = () => {
     const [categories, setCategiries] = React.useState([]);
-    const [products, setProducts] = React.useState<Array<any>>([]);
+    const [products, setProducts] = React.useState<Array<product>>([]);
     const [batches, setBatches] = React.useState(0);
     const [hasMore, setHasMore] = React.useState(true);
     const [includeCategories, setIncludeCategories] = React.useState<string[]>([]);
     const [requiredSubstring, setRequiredSubstring] = React.useState('');
-    const [searchOptions, setSearchOptions] = React.useState<any>({
+    const [searchOptions, setSearchOptions] = React.useState<searchOptions>({
         include: [],
         substring: ''
     });
@@ -98,7 +118,7 @@ const Main = () => {
                         setBatches(0);
                     }}>Find now</Button>
                 </div>
-                <MultiDropdown className={styles['categories-dropdown']} options={categories.map((category: any) => { return { key: category.id, value: category.name } })}
+                <MultiDropdown className={styles['categories-dropdown']} options={categories.map((category: category) => { return { key: String(category.id), value: category.name } })}
                     value={[]} onChange={(value) => { setIncludeCategories(value.map((v) => v.key)) }}
                     getTitle={(options) => options.sort().map((opt) => opt.value).join(', ')} />
             </div>

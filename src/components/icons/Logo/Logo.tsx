@@ -4,7 +4,7 @@ import { IconProps } from '../Icon';
 const Logo: React.FC<IconProps> = (props) => {
     return (
         <svg width={props.width || "131"} height={props.height || "42"} viewBox="0 0 131 42" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
-            <g clip-path="url(#clip0_867_175)">
+            <g clipPath="url(#clip0_867_175)">
                 <path d="M42 0H0V42H42V0Z" fill="white" />
                 <path d="M32.9034 20.601L31.9654 24.101H13.6534L8.66943 5.50549H12.2954L16.3379 20.601H32.9034Z" fill="#AD7E5C" />
                 <path d="M31.4019 26.201L30.4639 29.701H9.60743L8.66943 26.201H31.4019Z" fill="#518581" />

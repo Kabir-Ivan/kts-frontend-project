@@ -1,24 +1,25 @@
 import axios from 'axios';
 import classNames from 'classnames';
-import Button from 'components/Button';
-import Card from 'components/Card';
-import ArrowLeftIcon from 'components/icons/ArrowLeftIcon';
-import Loader from 'components/Loader';
-import LoadingBlock from 'components/LoadingBlock';
-import Text from 'components/Text';
 import React from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useNavigate, useParams } from 'react-router-dom';
-
+import Button from 'components/Button';
+import Card from 'components/Card';
+import Loader from 'components/Loader';
+import LoadingBlock from 'components/LoadingBlock';
+import Text from 'components/Text';
+import ArrowLeftIcon from 'components/icons/ArrowLeftIcon';
+import { product, category } from 'pages/Main';
 import styles from './Product.module.scss';
+
 
 const Product = () => {
     const { id } = useParams();
     const [isLoaded, setIsLoaded] = React.useState(false);
     const [data, setData] = React.useState({ id: 0, images: [''], title: '', subtitle: '', description: '', price: 0, category: '' });
 
-    const [products, setProducts] = React.useState<Array<any>>([]);
-    const [categories, setCategiries] = React.useState<Array<any>>([]);
+    const [products, setProducts] = React.useState<Array<product>>([]);
+    const [categories, setCategiries] = React.useState<Array<category>>([]);
     const [batches, setBatches] = React.useState(0);
     const [hasMore, setHasMore] = React.useState(true);
     const BATCH_SIZE = 4;
@@ -37,13 +38,14 @@ const Product = () => {
     }, []);
 
     const fetchProducts = async () => {
+        const currentCategory = categories.find((c) => c.name == data.category);
         const result = await axios({
             method: 'get',
             url: `https://fake-store-api.glitch.me/api/products`,
             params: {
                 offset: BATCH_SIZE * batches,
                 limit: BATCH_SIZE,
-                include: categories.find((c) => c.name == data.category) ? categories.find((c) => c.name == data.category).id : '',
+                include: currentCategory || '',
             }
         });
         setBatches(batches + 1);
@@ -119,7 +121,7 @@ const Product = () => {
                     }
                 >
                     {<div className={styles['products-grid']}>
-                        {products.map((product: any) => (
+                        {products.map((product: product) => (
                             product.id != data.id && <div className={styles['grid-item']} key={product.id}>
                                 <Card image={product.images[0]} title={product.title} subtitle={product.description} contentSlot={`$${product.price}`} captionSlot={product.subtitle}
                                     actionSlot={<Button onClick={() => alert(`Added ${product.id}`)}>Add to cart</Button>} onClick={() => { navigate(`/product/${product.id}`) }} />

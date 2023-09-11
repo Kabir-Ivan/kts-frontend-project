@@ -26,8 +26,7 @@ export type CardProps = {
 const Card: React.FC<CardProps> = ({ className, image, captionSlot, title, subtitle, contentSlot, onClick, actionSlot, ...otherProps }) => {
     const handleClick = (event: React.MouseEvent) => {
         const target = event.target as HTMLElement;
-        if (!target.closest('.action-slot')) {
-            //@ts-ignore
+        if (!target.closest('.action-slot') && onClick) {
             onClick(event);
         }
     }

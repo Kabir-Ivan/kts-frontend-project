@@ -1,8 +1,9 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import Text from 'components/Text';
-import styles from './Header.module.scss';
 import Logo from 'components/icons/Logo';
+
+import styles from './Header.module.scss';
 
 export type HeaderLink = {
     name: string,
