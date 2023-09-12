@@ -35,6 +35,10 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({ className, options, value
   const [toRender, setToRender] = React.useState(options.map((opt) => { return { key: opt.key, value: opt.value, selected: value.map((v) => v.key).includes(opt.key) } }))
   const dropdownRef = React.useRef<HTMLDivElement | null>(null); // Explicit type annotation
 
+  React.useEffect(() => {
+    setCurrentValue(value);
+  }, [value]);
+
   const handleClickOutside = (event: MouseEvent) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node) || disabled) {
       setIsOpened(false);

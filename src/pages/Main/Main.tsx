@@ -1,14 +1,14 @@
 import axios from 'axios';
 import classNames from 'classnames';
-import React from 'react';
+import React, { useState } from 'react';
 
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import Button from 'components/Button';
 import Card from 'components/Card';
 import Input from 'components/Input';
 import Loader from 'components/Loader';
-import MultiDropdown from 'components/MultiDropdown';
+import MultiDropdown, { Option } from 'components/MultiDropdown';
 import Text from 'components/Text';
 import config from 'config/config';
 import styles from './Main.module.scss';
@@ -35,13 +35,15 @@ export type category = {
 }
 
 const Main = () => {
-    const [categories, setCategiries] = React.useState([]);
-    const [products, setProducts] = React.useState<Array<product>>([]);
-    const [batches, setBatches] = React.useState(0);
-    const [hasMore, setHasMore] = React.useState(true);
-    const [includeCategories, setIncludeCategories] = React.useState<string[]>([]);
-    const [requiredSubstring, setRequiredSubstring] = React.useState('');
-    const [searchOptions, setSearchOptions] = React.useState<searchOptions>({
+    const [categories, setCategiries] = useState([]);
+    const [products, setProducts] = useState<Array<product>>([]);
+    const [batches, setBatches] = useState(0);
+    const [hasMore, setHasMore] = useState(true);
+    const [includeCategories, setIncludeCategories] = useState<string[]>([]);
+    const [requiredSubstring, setRequiredSubstring] = useState('');
+    const [searchParams, setSearchParams] = useSearchParams();
+    const [dropdownValue, setDropdownValue] = useState<Array<Option>>([]);
+    const [searchOptions, setSearchOptions] = useState<searchOptions>({
         include: [],
         substring: ''
     });
@@ -60,7 +62,19 @@ const Main = () => {
         }
 
         fetch();
+
     }, []);
+
+    React.useEffect(() => {
+        searchOptions.substring = (searchParams.get('substring') || '');
+        searchOptions.include = (searchParams.get('include') || '').split('|');
+        setSearchOptions(searchOptions);
+    }, []);
+
+    React.useEffect(() => {
+        setDropdownValue(categories.map((category: category) => { return { key: String(category.id), value: category.name } }).filter((option) =>
+            (searchParams.get('include') || '').split('|').includes(option.key)));
+    }, [categories, searchParams])
 
     const fetchProducts = async () => {
         const result = await axios({
@@ -113,9 +127,14 @@ const Main = () => {
             <div className={styles['main-input-container']}>
                 <div className={styles['text-input-container']}>
                     <div className={styles['text-input-wrap']}>
-                        <Input value='' placeholder='Search product' onChange={(value) => { setRequiredSubstring(value) }} />
+                        <Input value='' placeholder='Search product' onChange={(value) => {
+                            setRequiredSubstring(value);
+                        }} />
                     </div>
                     <Button onClick={() => {
+                        searchParams.set('include', includeCategories.join('|'));
+                        searchParams.set('substring', requiredSubstring);
+                        setSearchParams(searchParams);
                         setSearchOptions({
                             include: includeCategories,
                             substring: requiredSubstring
@@ -126,7 +145,11 @@ const Main = () => {
                     }}>Find now</Button>
                 </div>
                 <MultiDropdown className={styles['categories-dropdown']} options={categories.map((category: category) => { return { key: String(category.id), value: category.name } })}
-                    value={[]} onChange={(value) => { setIncludeCategories(value.map((v) => v.key)) }}
+                    value={dropdownValue} onChange={(value) => {
+                        setIncludeCategories(value.map((v) => v.key));
+                        searchParams.set('include', value.map((v) => v.key).join('|'));
+                        setSearchParams(searchParams);
+                    }}
                     getTitle={(options) => options.sort().map((opt) => opt.value).join(', ')} />
             </div>
             <Text view='p-20' weight='bold' className={styles['total-text']}>Total products: {totalProducts}</Text>
