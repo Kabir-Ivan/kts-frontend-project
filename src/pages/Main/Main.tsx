@@ -43,6 +43,7 @@ const Main = () => {
     const [requiredSubstring, setRequiredSubstring] = useState('');
     const [searchParams, setSearchParams] = useSearchParams();
     const [dropdownValue, setDropdownValue] = useState<Array<Option>>([]);
+    const [inputValue, setInputValue] = useState('');
     const [searchOptions, setSearchOptions] = useState<searchOptions>({
         include: [],
         substring: ''
@@ -68,6 +69,9 @@ const Main = () => {
     React.useEffect(() => {
         searchOptions.substring = (searchParams.get('substring') || '');
         searchOptions.include = (searchParams.get('include') || '').split('|');
+        setIncludeCategories(searchOptions.include);
+        setRequiredSubstring(searchOptions.substring);
+        setInputValue(searchOptions.substring);
         setSearchOptions(searchOptions);
     }, []);
 
@@ -127,7 +131,7 @@ const Main = () => {
             <div className={styles['main-input-container']}>
                 <div className={styles['text-input-container']}>
                     <div className={styles['text-input-wrap']}>
-                        <Input value='' placeholder='Search product' onChange={(value) => {
+                        <Input value={inputValue} placeholder='Search product' onChange={(value) => {
                             setRequiredSubstring(value);
                         }} />
                     </div>
