@@ -147,8 +147,6 @@ const Main = () => {
                 <MultiDropdown className={styles['categories-dropdown']} options={categories.map((category: category) => { return { key: String(category.id), value: category.name } })}
                     value={dropdownValue} onChange={(value) => {
                         setIncludeCategories(value.map((v) => v.key));
-                        searchParams.set('include', value.map((v) => v.key).join('|'));
-                        setSearchParams(searchParams);
                     }}
                     getTitle={(options) => options.sort().map((opt) => opt.value).join(', ')} />
             </div>
