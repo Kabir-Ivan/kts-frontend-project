@@ -49,7 +49,7 @@ const Product = () => {
                 include: currentCategory?.id || '',
             }
         });
-        const fetchedProducts = result.data[0];
+        const fetchedProducts = result.data.products;
         setBatches(batches + 1);
         setHasMore(fetchedProducts.length == BATCH_SIZE);
         setProducts([...products, ...fetchedProducts]);

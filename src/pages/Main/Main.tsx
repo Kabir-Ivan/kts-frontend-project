@@ -73,8 +73,8 @@ const Main = () => {
                 substring: searchOptions.substring
             }
         });
-        const fetchedProducts = result.data[0];
-        setTotalProducts(result.data[1]);
+        const fetchedProducts = result.data.products;
+        setTotalProducts(result.data.total);
         setBatches(batches + 1);
         setHasMore(fetchedProducts.length == BATCH_SIZE);
         setProducts([...products, ...fetchedProducts]);
@@ -91,8 +91,8 @@ const Main = () => {
                 substring: searchOptions.substring
             }
         });
-        const fetchedProducts = result.data[0];
-        setTotalProducts(result.data[1]);
+        const fetchedProducts = result.data.products;
+        setTotalProducts(result.data.total);
         setBatches(1);
         setHasMore(fetchedProducts.length == BATCH_SIZE);
         setProducts(fetchedProducts);
