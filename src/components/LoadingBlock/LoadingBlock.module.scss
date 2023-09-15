@@ -1,0 +1,20 @@
+.loading-block {
+    background:
+        linear-gradient(90deg, #0000 33%, rgba(255, 255, 255, 0.3) 50%, #0000 66%) #c0c0c0;
+    background-size: 300% 100%;
+    animation: shine 2s infinite;
+    height: 100%;
+    width: 100%;
+}
+
+.loading-block-text {
+    height: 52px;
+    width: 100%;
+}
+
+
+@keyframes shine {
+    0% {
+        background-position: right;
+    }
+}

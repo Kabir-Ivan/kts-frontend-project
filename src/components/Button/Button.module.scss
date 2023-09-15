@@ -1,0 +1,57 @@
+@import './../../styles/styles.scss';
+
+.button {
+    white-space: nowrap;
+    display: inline-flex;
+    min-height: 52px;
+    padding: $space-s $space-l;
+    justify-content: center;
+    align-items: center;
+    gap: $space-xxs;
+    border-radius: $border-radius;
+    background: $brand;
+    $loader-bg: #ffffff;
+    color: $button-primary-text;
+    border: none;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 18px;
+    border: 1px solid transparent;
+    cursor: pointer;
+
+    &.button-secondary {
+        border: 1px solid $button-secondary-border;
+        background-color: $button-secondary-bg;
+        color: $button-secondary-text;
+    }
+
+    &:hover:not(.button-loading):not(.button-disabled) {
+        border-color: transparent;
+        color: $button-primary-text-hover;
+        background: $button-primary-bg-hover;
+    }
+
+    &:active:not(.button-loading):not(.button-disabled) {
+        border-color: transparent;
+        background: $button-primary-bg-active;
+        color: $button-primary-text-active;
+    }
+
+    &.button-loading {
+        border-color: transparent;
+        color: $button-primary-text;
+        background: $button-primary-bg;
+    }
+
+    &.button-disabled {
+        border-color: transparent;
+        color: $button-primary-text-disabled;
+        background: $button-primary-bg-disabled;
+    }
+
+    .loader {
+        border-color: white;
+        border-bottom-color: transparent;
+    }
+}
