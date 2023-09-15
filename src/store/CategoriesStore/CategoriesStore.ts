@@ -30,8 +30,8 @@ export default class CategoriesStore implements ICategoriesStore, ILocalStore {
     });
   }
 
-  get list(): CategoryModel[] {
-    return this._list.asList();
+  get list(): Collection<number, CategoryModel> {
+    return this._list;
   }
 
   get meta(): Meta {
@@ -55,12 +55,12 @@ export default class CategoriesStore implements ICategoriesStore, ILocalStore {
       try {
         const response = await axios({
           method: 'get',
-          url: config.PRODUCTS_URL,
+          url: config.CATEGORIES_URL,
         });
         const normalized = normalizeCategoriesList(response.data);
         this._meta = Meta.success;
         this._list.add(normalized.categories);
-        this._callback?.(this._list);
+        this._callback?.(this.list);
         this._total = normalized.categories.length;
       } catch {
         this._meta = Meta.error;

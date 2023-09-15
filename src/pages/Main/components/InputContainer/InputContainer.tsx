@@ -4,20 +4,25 @@ import { useSearchParams } from 'react-router-dom';
 import Button from 'components/Button';
 import Input from 'components/Input';
 import MultiDropdown, { Option } from 'components/MultiDropdown';
+import useCategoriesStore from 'store/CategoriesStore/useCategoriesStore';
 import RootStore from 'store/RootStore';
 import { CategoryModel } from 'store/models/CategoryModel';
-import Collection from 'store/models/shared/Collection';
 import styles from './InputContainer.module.scss';
 
 export type InputContainerProps = {
   loadProducts: (clear: boolean) => void;
-  categories: Collection<number, CategoryModel>;
 };
 
-const InputContainer: React.FC<InputContainerProps> = ({ categories, loadProducts }) => {
+const InputContainer: React.FC<InputContainerProps> = ({ loadProducts }) => {
   const [, setSearchParams] = useSearchParams();
+  const { categories, fetchCategories } = useCategoriesStore();
   const [dropdownValue, setDropdownValue] = React.useState<Option[]>([]);
   const [inputValue, setInputValue] = React.useState(RootStore.query.getParam('substring')?.toString() || '');
+
+  React.useEffect(() => {
+    fetchCategories();
+  }, []);
+
   React.useEffect(() => {
     setDropdownValue(
       categories
@@ -40,7 +45,7 @@ const InputContainer: React.FC<InputContainerProps> = ({ categories, loadProduct
     RootStore.query.setSearch(
       Object.keys(params)
         .map((k: string) => `${k}=${params[k]}`)
-        .join(''),
+        .join('&'),
     );
     loadProducts(true);
   };

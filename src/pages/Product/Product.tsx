@@ -1,19 +1,14 @@
-import classNames from 'classnames';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import { useNavigate, useParams } from 'react-router-dom';
-import Button from 'components/Button';
-import Card from 'components/Card';
-import Loader from 'components/Loader';
-import LoadingBlock from 'components/LoadingBlock';
+import InfiniteGrid from 'components/InfiniteGrid';
 import Text from 'components/Text';
 import ArrowIcon from 'components/icons/ArrowIcon';
 import config from 'config/config';
 import useCategoriesStore from 'store/CategoriesStore/useCategoriesStore';
 import useProductsStore from 'store/ProductsStore/useProductsStore';
 import useSingleProductStore from 'store/SingleProductStore/useSingleProductStore';
-import { ProductModel } from 'store/models/ProductModel';
+import ProductCard from './Components/ProductCard';
 import styles from './Product.module.scss';
 
 const Product = () => {
@@ -41,7 +36,6 @@ const Product = () => {
   };
 
   const hasMore = () => {
-    console.log(total, products.length);
     return products.length && total ? products.length < total : true;
   };
 
@@ -56,6 +50,10 @@ const Product = () => {
       setIsLoaded(true);
     }
   }, [product]);
+
+  React.useEffect(() => {
+    console.log(products);
+  }, [products]);
 
   const navigate = useNavigate();
 
@@ -73,94 +71,14 @@ const Product = () => {
         </div>
       </div>
 
-      <div className={styles['product__product-card']}>
-        <div className={styles['product__product-card_image-container']}>
-          {isLoaded ? (
-            <img src={product ? (product.images || [''])[0] : ''} className={styles['product__product-card_image']} />
-          ) : (
-            <LoadingBlock />
-          )}
-        </div>
-        <div className={styles['product__product-card-info']}>
-          <div className={styles['product__product-card-info_top']}>
-            {isLoaded ? (
-              <Text view="title" weight="bold">
-                {product?.title}
-              </Text>
-            ) : (
-              <LoadingBlock type="text" />
-            )}
-            {isLoaded ? (
-              <Text view="p-20" color="secondary">
-                {product?.subtitle}
-              </Text>
-            ) : (
-              <LoadingBlock type="text" />
-            )}
-            {isLoaded ? (
-              <Text view="p-20" color="secondary">
-                {product?.description}
-              </Text>
-            ) : (
-              <LoadingBlock type="text" />
-            )}
-          </div>
-          <div className={styles['product__product-card-info_bottom']}>
-            {isLoaded ? (
-              <Text view="title" weight="bold">
-                ${product?.price}
-              </Text>
-            ) : (
-              <LoadingBlock type="text" />
-            )}
-            {isLoaded ? (
-              <div className={styles['product__button-container']}>
-                <Button buttonType="primary">Buy now</Button>
-                <Button buttonType="secondary">Add to cart</Button>
-              </div>
-            ) : (
-              <LoadingBlock type="text" />
-            )}
-          </div>
-        </div>
-      </div>
+      <ProductCard isLoaded={isLoaded} product={product} />
 
       {isLoaded && (
         <div className={styles['product__related-container']}>
           <Text view="p-20" weight="bold">
             Related Items
           </Text>
-          <InfiniteScroll
-            className="fullwidth"
-            dataLength={products.length}
-            next={load}
-            hasMore={hasMore()}
-            loader={<Loader size="l" className={classNames('centered', styles['product__products-loader'])} />}
-            endMessage={<div className={'horizontal-line'}></div>}
-          >
-            {
-              <div className={styles['product__products-grid']}>
-                {products.asList().map(
-                  (product_: ProductModel) =>
-                    product_.id != product?.id && (
-                      <div className={styles['product__products-grid_grid-item']} key={product_.id}>
-                        <Card
-                          image={product_.images[0]}
-                          title={product_.title}
-                          subtitle={product_.description}
-                          contentSlot={`$${product_.price}`}
-                          captionSlot={product_.subtitle}
-                          actionSlot={<Button onClick={() => alert(`Added ${product_.id}`)}>Add to cart</Button>}
-                          onClick={() => {
-                            navigate(`/product/${product_.id}`);
-                          }}
-                        />
-                      </div>
-                    ),
-                )}
-              </div>
-            }
-          </InfiniteScroll>
+          <InfiniteGrid products={products} loadMore={load} hasMore={hasMore} />
         </div>
       )}
     </div>

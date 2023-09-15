@@ -21,12 +21,11 @@ const useProductsStore = () => {
   const [products, setProducts] = React.useState<Collection<number, ProductModel>>(
     new Collection<number, ProductModel>([], (element) => element.id),
   );
-  const [total, setTotal] = React.useState<number | undefined>(0);
+  const [total, setTotal] = React.useState<number | undefined>(undefined);
   const loader = useLocalStore(
     () =>
       new ProductsStore(
         (array: Collection<number, ProductModel>) => {
-          console.log(array);
           setProducts(array);
         },
         (num: number) => {

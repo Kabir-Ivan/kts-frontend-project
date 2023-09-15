@@ -91,6 +91,10 @@ $space-xl: 48px;
   margin-right: auto;
 }
 
+:global(.scrollable) {
+  overflow: auto;
+}
+
 :global(.horizontal-line) {
   margin-top: 8px;
   width: 100%;
