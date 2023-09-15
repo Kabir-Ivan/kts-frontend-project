@@ -1,70 +1,70 @@
-@import './../../styles/styles.scss';
+@import "styles/styles.scss";
 
 .header {
-    z-index: 999;
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 90px;
-    border-radius: $border-radius;
-    border-bottom: 2px solid $Line-Color;
-    background: $Screen-Color;
-    width: 100%;
+  z-index: 999;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 90px;
+  border-radius: $border-radius;
+  border-bottom: 2px solid $line-color;
+  background: $screen-color;
+  width: 100%;
 }
 
-.header-usable-area {
-    display: flex;
-    height: 100%;
-    width: 90%;
-    margin: 0 auto;
+.header__usable-area {
+  display: flex;
+  height: 100%;
+  width: 90%;
+  margin: 0 auto;
 }
 
-.header-logo {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    gap: $space-xs;
+.header__logo {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: $space-xs;
 }
 
-.header-links-container {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto;
+.header__links-container {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
 }
 
-.header-link-container {
-    height: 100%;
+.header__link-container {
+  height: 100%;
 }
 
-.header-links {
-    height: 100%;
-    display: inline-flex;
-    align-items: flex-start;
-    gap: $space-xl;
+.header__links {
+  height: 100%;
+  display: inline-flex;
+  align-items: flex-start;
+  gap: $space-xl;
 }
 
-.header-link {
-    color: $text-primary;
-    display: flex;
-    height: 100%;
-    align-items: center;
-    box-sizing: content-box;
+.header__link {
+  color: $text-primary;
+  display: flex;
+  height: 100%;
+  align-items: center;
+  box-sizing: content-box;
 
-    &-active {
-        color: $text-accent;
-        border-bottom: 2px solid $Main-Color;
-    }
+  &-active {
+    color: $text-accent;
+    border-bottom: 2px solid $main-color;
+  }
 
-    &:hover:not(.header-link-active) {
-        color: $text-secondary;
-    }
+  &:hover:not(.header-link-active) {
+    color: $text-secondary;
+  }
 }
 
-.header-additional {
-    height: 100%;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: $space-xl;
+.header__additional {
+  height: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $space-xl;
 }

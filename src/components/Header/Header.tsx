@@ -3,48 +3,54 @@ import { Link, NavLink } from 'react-router-dom';
 import Text from 'components/Text';
 import Logo from 'components/icons/Logo';
 
+import config from 'config/config';
 import styles from './Header.module.scss';
 
 export type HeaderLink = {
-    name: string,
-    url: string
-}
+  name: string;
+  url: string;
+};
 
 export type HeaderOptions = {
-    links: HeaderLink[],
-    additonal?: React.ReactNode
-}
+  links: HeaderLink[];
+  additonal?: React.ReactNode;
+};
 
 const Header: React.FC<HeaderOptions> = ({ links, additonal }) => {
-    return (
-        <div className={styles['header']}>
-            <div className={styles['header-usable-area']}>
-                <div className={styles['header-logo']}>
-                    <Link to={'/'}>
-                        <Logo />
-                    </Link>
-                </div>
-                <div className={styles['header-links-container']}>
-                    <div className={styles['header-links']}>
-                        {links.map(({ name, url }) => (
-                            <div className={styles['header-link-container']} key={url}>
-                                <NavLink to={url} className={({ isActive }) => isActive ? styles['header-link'] + ' ' + styles['header-link-active'] :
-                                    styles['header-link']} style={{ textDecoration: 'none' }}>
-                                    {({ isActive }) =>
-                                        <Text color='inherit' view='p-18' weight={isActive ? 'normal' : 'normal'}>{name}</Text>
-                                    }
-                                </NavLink>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-
-                {additonal && <div className={styles['header-additional']}>
-                    {additonal}
-                </div>}
-            </div>
+  return (
+    <div className={styles['header']}>
+      <div className={styles['header__usable-area']}>
+        <div className={styles['header__logo']}>
+          <Link to={config.PPODUCTS_LINK}>
+            <Logo />
+          </Link>
         </div>
-    );
-}
+        <div className={styles['header__links-container']}>
+          <div className={styles['header__links']}>
+            {links.map(({ name, url }) => (
+              <div className={styles['header__link-container']} key={url}>
+                <NavLink
+                  to={url}
+                  className={({ isActive }) =>
+                    isActive ? styles['header__link'] + ' ' + styles['header__link-active'] : styles['header__link']
+                  }
+                  style={{ textDecoration: 'none' }}
+                >
+                  {({ isActive }) => (
+                    <Text color="inherit" view="p-18" weight={isActive ? 'normal' : 'normal'}>
+                      {name}
+                    </Text>
+                  )}
+                </NavLink>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {additonal && <div className={styles['header__additional']}>{additonal}</div>}
+      </div>
+    </div>
+  );
+};
 
 export default Header;
