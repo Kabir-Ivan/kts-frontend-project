@@ -51,11 +51,6 @@ export class FilterStore implements IFilterStore, ILocalStore {
         return { key: String(category.id), value: category.name };
       })
       .filter((option: Option) => RootStore.query.getParam('include')?.toString().split('|').includes(option.key));
-    if (this._dropdown.length == 0) {
-      this._dropdown = this._categoriesLoader.list.asList().map((category: CategoryModel) => {
-        return { key: String(category.id), value: category.name };
-      });
-    }
   };
 
   setFilters = (filters: FiltersType) => {
