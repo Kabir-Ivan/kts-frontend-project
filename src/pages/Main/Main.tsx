@@ -13,6 +13,7 @@ const Main: React.FC = () => {
   const productsLoader: ProductsStore = useLocalStore(() => new ProductsStore());
 
   const BATCH_SIZE = 24;
+
   const loadProducts = React.useCallback(
     (clear: boolean) => {
       productsLoader.getProductsList({
