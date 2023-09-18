@@ -6,10 +6,12 @@
   align-items: flex-start;
   gap: $space-m;
   width: 100%;
+
   &__text-input-wrap {
     display: inline-flex;
     width: 100%;
   }
+
   &__text-input-container {
     white-space: nowrap;
     display: flex;

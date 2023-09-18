@@ -2,29 +2,36 @@
 
 .product-container {
   @include column-flex;
+
   width: 90%;
   height: 100%;
   margin: auto;
   gap: $space-xl;
 }
+
 .product {
   &__back-button-container {
     @include row-flex;
+
     width: 100%;
     margin-top: 160px;
   }
 
   &__back-button {
     @include row-flex;
+
     width: 100px;
     cursor: pointer;
     justify-content: center;
+
     &_text {
       margin: auto auto;
     }
   }
+
   &__related-container {
     @include column-flex;
+
     gap: $space-m;
     width: 100%;
   }

@@ -7,6 +7,7 @@
   width: 90%;
   margin: 0 auto;
 }
+
 .main {
   &__products-title-container {
     display: flex;
@@ -56,10 +57,12 @@
     grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
     column-gap: 30px;
     row-gap: 30px;
+
     &_grid-item {
       display: flex;
     }
   }
+
   &__products-loader {
     margin: 24px 24px;
   }
