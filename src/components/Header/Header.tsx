@@ -1,3 +1,4 @@
+import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import Text from 'components/Text';
@@ -21,7 +22,7 @@ const Header: React.FC<HeaderOptions> = ({ links, additonal }) => {
     <div className={styles['header']}>
       <div className={styles['header__usable-area']}>
         <div className={styles['header__logo']}>
-          <Link to={config.PPODUCTS_LINK}>
+          <Link to={config.ENDPOINTS.PPODUCTS}>
             <Logo />
           </Link>
         </div>
@@ -53,4 +54,4 @@ const Header: React.FC<HeaderOptions> = ({ links, additonal }) => {
   );
 };
 
-export default Header;
+export default observer(Header);

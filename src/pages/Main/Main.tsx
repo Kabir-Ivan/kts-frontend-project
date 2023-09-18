@@ -3,37 +3,41 @@ import React from 'react';
 
 import InfiniteGrid from 'components/InfiniteGrid';
 import Text from 'components/Text';
-import useProductsStore from 'store/ProductsStore/useProductsStore';
-import RootStore from 'store/RootStore';
+import RootStore from 'store/globals';
+import { ProductsStore } from 'store/locals';
+import { useLocalStore } from 'utils/useLocalStore';
 import InputContainer from './components/InputContainer';
 import styles from './Main.module.scss';
 
-const Main = () => {
-  const { products, total, fetchProducts } = useProductsStore();
+const Main: React.FC = () => {
+  const productsLoader: ProductsStore = useLocalStore(() => new ProductsStore());
 
   const BATCH_SIZE = 24;
-  const loadProducts = (clear: boolean) => {
-    fetchProducts({
-      substring: RootStore.query.getParam('substring')?.toString() || '',
-      categories: (RootStore.query.getParam('include') || '')
-        ?.toString()
-        .split('|')
-        .filter((v) => v && v != ' ')
-        .map((v) => Number(v)),
-      batchSize: BATCH_SIZE,
-      clear: clear,
-    });
-  };
+  const loadProducts = React.useCallback(
+    (clear: boolean) => {
+      productsLoader.getProductsList({
+        substring: RootStore.query.getParam('substring')?.toString() || '',
+        categories: (RootStore.query.getParam('include') || '')
+          ?.toString()
+          .split('|')
+          .filter((v) => v && v != ' ')
+          .map((v) => Number(v)),
+        batchSize: BATCH_SIZE,
+        clear: clear,
+      });
+    },
+    [productsLoader],
+  );
 
   React.useEffect(() => {
-    if (products && products.length === 0) {
+    if (productsLoader.list && productsLoader.list.length === 0) {
       loadProducts(true);
     }
-  }, [products]);
+  }, [productsLoader.list, loadProducts]);
 
-  const hasMore = () => {
-    return products.length != undefined && total != undefined ? products.length < total : true;
-  };
+  const loadMore = React.useCallback(() => {
+    loadProducts(false);
+  }, [loadProducts]);
 
   return (
     <div className={styles['main-container']}>
@@ -48,15 +52,9 @@ const Main = () => {
       </div>
       <InputContainer loadProducts={loadProducts} />
       <Text view="p-20" weight="bold" className={styles['total-text']}>
-        Total products: {total == undefined ? `Loading...` : total}
+        Total products: {productsLoader.isLoaded ? productsLoader.total : `Loading...`}
       </Text>
-      <InfiniteGrid
-        products={products}
-        loadMore={() => {
-          loadProducts(false);
-        }}
-        hasMore={hasMore}
-      />
+      <InfiniteGrid products={productsLoader.list} loadMore={loadMore} hasMore={productsLoader.hasMore} />
     </div>
   );
 };

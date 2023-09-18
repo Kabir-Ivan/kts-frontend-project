@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import { observer } from 'mobx-react-lite';
 import React from 'react';
 import Text from '../../components/Text';
 import styles from './Card.module.scss';
@@ -73,4 +74,4 @@ const Card: React.FC<CardProps> = ({
   );
 };
 
-export default React.memo(Card);
+export default observer(Card);

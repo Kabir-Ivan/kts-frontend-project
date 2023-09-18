@@ -6,8 +6,9 @@ import { useNavigate } from 'react-router-dom';
 import Button from 'components/Button';
 import Card from 'components/Card';
 import Loader from 'components/Loader';
-import { ProductModel } from 'store/models/ProductModel';
-import Collection from 'store/models/shared/Collection';
+import config from 'config/config';
+import ProductModel from 'entities/product';
+import Collection from 'entities/shared';
 import styles from './InfiniteGrid.module.scss';
 
 export type InfiniteGridProps = {
@@ -40,7 +41,7 @@ const InfiniteGrid: React.FC<InfiniteGridProps> = ({ products, loadMore, hasMore
                 captionSlot={product_.subtitle}
                 actionSlot={<Button onClick={() => alert(`Added ${product_.id}`)}>Add to cart</Button>}
                 onClick={() => {
-                  navigate(`/product/${product_.id}`);
+                  navigate(`${config.ENDPOINTS.PRODUCT}/${product_.id}`);
                 }}
               />
             </div>

@@ -8,7 +8,7 @@ import UserIcon from 'components/icons/UserIcon';
 import config from 'config/config';
 import Main from 'pages/Main';
 import Product from 'pages/Product';
-import { useQueryParamsStoreInit } from 'store/RootStore/hooks/useQueryParamsStoreInit';
+import { useQueryParamsStoreInit } from 'store/globals/RootStore';
 
 function App() {
   useQueryParamsStoreInit();
@@ -16,27 +16,23 @@ function App() {
   return (
     <>
       <Header
-        links={[
-          { url: '/', name: 'Products' },
-          { url: '/categories', name: 'Categories' },
-          { url: '/about', name: 'About us' },
-        ]}
+        links={config.HEADER}
         additonal={
           <>
-            <NavLink to={config.CART_LINK}>
+            <NavLink to={config.ENDPOINTS.CART}>
               <CartIcon />
             </NavLink>
-            <NavLink to={config.PROFILE_LINK}>
+            <NavLink to={config.ENDPOINTS.PROFILE}>
               <UserIcon />
             </NavLink>
           </>
         }
       />
       <Routes>
-        <Route path={config.PPODUCTS_LINK} element={<Main />} />
-        <Route path={config.CATEGORIES_LINK} element={<p>categories</p>} />
-        <Route path={config.ABOUT_LINK} element={<p>about</p>} />
-        <Route path={config.PRODUCT_LINK}>
+        <Route path={config.ENDPOINTS.PPODUCTS} element={<Main />} />
+        <Route path={config.ENDPOINTS.CATEGORIES} element={<p>categories</p>} />
+        <Route path={config.ENDPOINTS.ABOUT} element={<p>about</p>} />
+        <Route path={config.ENDPOINTS.PRODUCT}>
           <Route path=":id" element={<Product />} />
         </Route>
       </Routes>

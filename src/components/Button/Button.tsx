@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import { observer } from 'mobx-react-lite';
 import React from 'react';
 import Loader from '../../components/Loader';
 import styles from './Button.module.scss';
@@ -35,4 +36,4 @@ const Button: React.FC<ButtonProps> = (props) => {
   );
 };
 
-export default React.memo(Button);
+export default observer(Button);

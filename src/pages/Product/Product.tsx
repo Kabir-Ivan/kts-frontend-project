@@ -5,55 +5,39 @@ import InfiniteGrid from 'components/InfiniteGrid';
 import Text from 'components/Text';
 import ArrowIcon from 'components/icons/ArrowIcon';
 import config from 'config/config';
-import useCategoriesStore from 'store/CategoriesStore/useCategoriesStore';
-import useProductsStore from 'store/ProductsStore/useProductsStore';
-import useSingleProductStore from 'store/SingleProductStore/useSingleProductStore';
+import { SingleProductStore, CategoriesStore, ProductsStore } from 'store/locals';
+import { useLocalStore } from 'utils/useLocalStore';
 import ProductCard from './Components/ProductCard';
 import styles from './Product.module.scss';
 
 const Product = () => {
   const { id } = useParams();
-  const [isLoaded, setIsLoaded] = React.useState(false);
-  const { product, fetchSingleProduct } = useSingleProductStore();
-  const { categories, fetchCategories } = useCategoriesStore();
-  const { products, total, fetchProducts } = useProductsStore();
+  const singleProductLoader: SingleProductStore = useLocalStore(() => new SingleProductStore());
+  const categoriesLoader: CategoriesStore = useLocalStore(() => new CategoriesStore());
+  const productsLoader: ProductsStore = useLocalStore(() => new ProductsStore());
   const BATCH_SIZE = 6;
 
   React.useEffect(() => {
-    fetchCategories();
-  }, []);
+    categoriesLoader.getCategoriesList();
+  }, [categoriesLoader]);
 
-  const load = async () => {
-    fetchProducts({
+  const load = React.useCallback(async () => {
+    productsLoader.getProductsList({
       substring: '',
-      categories: categories
+      categories: categoriesLoader.list
         .asList()
-        .filter((c) => c.name == product?.category)
+        .filter((c) => c.name == singleProductLoader.product?.category)
         .map((c) => c.id),
       batchSize: BATCH_SIZE,
       clear: false,
     });
-  };
-
-  const hasMore = () => {
-    return products.length && total ? products.length < total : true;
-  };
+  }, [categoriesLoader.list, productsLoader, singleProductLoader.product?.category]);
 
   React.useEffect(() => {
-    fetchSingleProduct({
+    singleProductLoader.getProduct({
       id: Number(id),
     });
-  }, [id]);
-
-  React.useEffect(() => {
-    if (product) {
-      setIsLoaded(true);
-    }
-  }, [product]);
-
-  React.useEffect(() => {
-    console.log(products);
-  }, [products]);
+  }, [id, singleProductLoader]);
 
   const navigate = useNavigate();
 
@@ -63,7 +47,7 @@ const Product = () => {
         <div
           className={styles['product__back-button']}
           onClick={() => {
-            navigate(config.PPODUCTS_LINK);
+            navigate(config.ENDPOINTS.PPODUCTS);
           }}
         >
           <ArrowIcon direction="left" />
@@ -71,14 +55,14 @@ const Product = () => {
         </div>
       </div>
 
-      <ProductCard isLoaded={isLoaded} product={product} />
+      <ProductCard isLoaded={singleProductLoader.isLoaded} product={singleProductLoader.product} />
 
-      {isLoaded && (
+      {singleProductLoader.isLoaded && (
         <div className={styles['product__related-container']}>
           <Text view="p-20" weight="bold">
             Related Items
           </Text>
-          <InfiniteGrid products={products} loadMore={load} hasMore={hasMore} />
+          <InfiniteGrid products={productsLoader.list} loadMore={load} hasMore={productsLoader.hasMore} />
         </div>
       )}
     </div>
