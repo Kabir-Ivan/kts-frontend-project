@@ -1,19 +1,70 @@
-@import './../../styles/styles.scss';
+@import "./../../styles/styles.scss";
+
+.text {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
 
 .text-color {
-    &-primary {
-        color: $text-primary;
-    }
+  &-primary {
+    color: $text-primary;
+  }
 
-    &-accent {
-        color: $text-accent;
-    }
+  &-accent {
+    color: $text-accent;
+  }
 
-    &-secondary {
-        color: $text-secondary;
-    }
+  &-secondary {
+    color: $text-secondary;
+  }
 
-    &-inherit {
-        color: inherit;
-    }
+  &-inherit {
+    color: inherit;
+  }
+}
+
+.text-weight {
+  &-bold {
+    font-weight: 700;
+  }
+
+  &-medium {
+    font-weight: 500;
+  }
+
+  &-normal {
+    font-weight: 400;
+  }
+}
+
+.title {
+  font-size: 44px;
+  line-height: 48px;
+}
+
+.button {
+  font-size: 18px;
+  line-height: 18px;
+  text-transform: uppercase;
+}
+
+.p-20 {
+  font-size: 20px;
+  line-height: 24px;
+}
+
+.p-18 {
+  font-size: 18px;
+  line-height: 22px;
+}
+
+.p-16 {
+  font-size: 16px;
+  line-height: 20px;
+}
+
+.p-14 {
+  font-size: 14px;
+  line-height: 18px;
 }

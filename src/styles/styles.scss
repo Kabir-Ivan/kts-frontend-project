@@ -1,6 +1,8 @@
-@import './Roboto/fonts';
+@import "./Roboto/fonts";
+@import "./mixins.scss";
+@import "./variables.scss";
 
-$primary-font: 'Roboto';
+$primary-font: "Roboto";
 
 html,
 body {
@@ -26,62 +28,6 @@ pre {
   margin: 0;
 }
 
-$Screen-Color: #FFFFFF;
-$Main-Color: #518581;
-$Line-Color: #F3F3F3;
-$Text-Color: #151411;
-
-$loader-bg: #518581;
-$button-primary-bg: #518581;
-$button-primary-text: #fff;
-$button-primary-text-hover: #fff;
-$button-primary-bg-hover: #86aaa7;
-$button-primary-bg-disabled: #d9d9d9;
-$button-primary-text-disabled: #fff;
-$button-primary-bg-active: #487773;
-$button-primary-text-active: #fff;
-$button-secondary-border: #afadb5;
-$button-secondary-bg: #ffffff;
-$button-secondary-text: #000;
-$text-primary: #000;
-$text-secondary: #afadb5;
-$text-accent: #518581;
-$input-text: #000;
-$input-bg: #fff;
-$input-placeholder: #afadb5;
-$input-border: #fff;
-$input-bg-focus: #fff;
-$input-border-focus: #518581;
-$input-text-focus: #000;
-$input-bg-disabled: #fff;
-$input-border-disabled: #fff;
-$input-text-disabled: rgba(0, 0, 0, 0.2);
-$checkbox-bg: #fff;
-$checkbox-border: #fff;
-$checkbox-border-hover: #518581;
-$checkbox-check: #518581;
-$checkbox-bg-disabled: rgba(255, 255, 255, 0.5);
-$checkbox-check-hover: #518581;
-$checkbox-bg-hover: #fff;
-$checkbox-check-disabled: rgba(0, 0, 0, 0.2);
-$card-bg: #fff;
-$dropdown-options-bg: #fff;
-$card-image-bg: #d9d9d9;
-$brand: #518581;
-$brand-active: #487773;
-$brand-hover: #86aaa7;
-$scrollbar-track: #f1f1f1;
-$scrollbar-thumb: #888;
-$scrollbar-thumb-hover: #555;
-
-$border-radius: 0px;
-$space-xxs: 8px;
-$space-xs: 12px;
-$space-m: 24px;
-$space-s: 16px;
-$space-l: 32px;
-$space-xl: 48px;
-
 :global(.fullwidth) {
   width: 100%;
 }
@@ -91,16 +37,15 @@ $space-xl: 48px;
   margin-right: auto;
 }
 
-@mixin row-flex {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
+:global(.scrollable) {
+  overflow: auto;
 }
 
-@mixin column-flex {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+:global(.horizontal-line) {
+  margin-top: 8px;
+  width: 100%;
+  height: 8px;
+  border-top: 2px solid $brand;
 }
 
 ::-webkit-scrollbar {

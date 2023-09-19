@@ -14,6 +14,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
+    "esModuleInterop": true,
     "jsx": "react-jsx",
     "strict": true,
     "noUnusedLocals": true,
@@ -33,8 +34,14 @@
       "pages": [
         "pages/*"
       ],
+      "store": [
+        "store/*"
+      ],
       "utils": [
         "utils/*"
+      ],
+      "entities": [
+        "entities/*"
       ]
     }
   },

@@ -1,21 +1,23 @@
-@import './../../styles/styles.scss';
+@import "styles/styles.scss";
 
-.loader-s {
+/* Block: loader */
+.loader {
+  &-s {
     width: 24px;
     height: 24px;
-}
+  }
 
-.loader-m {
+  &-m {
     width: 48px;
     height: 48px;
-}
+  }
 
-.loader-l {
+  &-l {
     width: 60px;
     height: 60px;
-}
+  }
 
-.loader-wheel {
+  &__wheel {
     margin: calc(100% / 6) calc(100% / 6);
     width: calc(100% / 3 * 2);
     height: calc(100% / 3 * 2);
@@ -25,25 +27,26 @@
     transform: rotate(-58deg);
     animation: rotation 1s linear infinite;
 
-    &.loader-wheel-s {
-        border-width: 2px;
+    &-s {
+      border-width: 2px;
     }
 
-    &.loader-wheel-m {
-        border-width: 4px;
+    &-m {
+      border-width: 4px;
     }
 
-    &.loader-wheel-l {
-        border-width: 5px;
+    &-l {
+      border-width: 5px;
     }
+  }
 }
 
 @keyframes rotation {
-    0% {
-        transform: rotate(-58deg);
-    }
+  0% {
+    transform: rotate(-58deg);
+  }
 
-    100% {
-        transform: rotate(302deg);
-    }
+  100% {
+    transform: rotate(302deg);
+  }
 }

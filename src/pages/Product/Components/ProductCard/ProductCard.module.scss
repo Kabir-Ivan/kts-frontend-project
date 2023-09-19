@@ -1,0 +1,53 @@
+@import "styles/styles.scss";
+
+.product-card {
+  @include row-flex;
+
+  margin-top: 40px;
+  gap: $space-xl;
+  width: 100%;
+
+  @media (max-width: 1100px) {
+    @include column-flex;
+  }
+
+  &__image-container {
+    height: min(90vw, 90vh, 600px);
+    width: min(90vw, 90vh, 600px);
+    margin: auto;
+  }
+
+  &__image {
+    height: min(90vw, 90vh, 600px);
+    width: min(90vw, 90vh, 600px);
+  }
+
+  &__info {
+    @include column-flex;
+
+    flex-grow: 1;
+    height: 100%;
+    gap: $space-xl;
+
+    &_top {
+      @include column-flex;
+
+      width: 100%;
+      gap: $space-m;
+      margin-bottom: $space-xs;
+    }
+
+    &_bottom {
+      @include column-flex;
+
+      gap: $space-xl;
+      margin-top: $space-l;
+    }
+  }
+
+  &__button-container {
+    @include row-flex;
+
+    gap: $space-xl;
+  }
+}

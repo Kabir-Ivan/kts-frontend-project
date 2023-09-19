@@ -1,63 +1,63 @@
-@import './../../styles/styles.scss';
+@import "styles/styles.scss";
 
 .card-text {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    gap: $space-xxs;
-    align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: $space-xxs;
+  align-self: stretch;
 }
 
 .card {
-    display: inline-flex;
-    padding-bottom: $space-xl;
-    flex-direction: column;
-    align-items: flex-start;
-    cursor: pointer;
-    gap: $space-xl;
-    border-radius: $border-radius;
-    background: $card-bg;
+  display: inline-flex;
+  padding-bottom: $space-xl;
+  flex-direction: column;
+  align-items: flex-start;
+  cursor: pointer;
+  gap: $space-xl;
+  border-radius: $border-radius;
+  background: $card-bg;
 
-    &:hover {
-        box-shadow: 0px 6px 10px 0px rgba(0, 0, 0, 0.25);
-    }
+  &:hover {
+    box-shadow: 0px 6px 10px 0px rgba(0, 0, 0, 0.25);
+  }
 }
 
-.card-body {
-    display: flex;
-    width: 348px;
-    padding: 0px $space-xs;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: $space-l;
+.card__body {
+  display: flex;
+  width: 348px;
+  padding: 0px $space-xs;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: $space-l;
 }
 
-.card-header {
-    width: 348px;
-    height: 348px;
-    background-size: 100% 100%;
-    background-color: $card-image-bg;
+.card__header {
+  width: 348px;
+  height: 348px;
+  background-size: 100% 100%;
+  background-color: $card-image-bg;
 }
 
-.card-footer {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    gap: $space-xxs;
-    align-self: stretch;
+.card__footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: $space-xxs;
+  align-self: stretch;
 }
 
-.card-body-text {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    align-self: stretch;
+.card__body-text {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  align-self: stretch;
 }
 
-.card-footer-text {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
+.card__footer-text {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
 }

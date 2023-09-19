@@ -1,37 +1,43 @@
 import './App.scss';
 
 import React from 'react';
-import { BrowserRouter, NavLink, Route, Routes } from 'react-router-dom';
+import { NavLink, Route, Routes } from 'react-router-dom';
 import Header from 'components/Header';
 import CartIcon from 'components/icons/CartIcon';
 import UserIcon from 'components/icons/UserIcon';
+import config from 'config/config';
 import Main from 'pages/Main';
 import Product from 'pages/Product';
+import { useQueryParamsStoreInit } from 'store/globals/RootStore';
 
 function App() {
+  useQueryParamsStoreInit();
 
   return (
-    <BrowserRouter>
-      <Header links={[{ url: '/', name: 'Products' }, { url: '/categories', name: 'Categories' }, { url: '/about', name: 'About us' }]} additonal={
-        <>
-          <NavLink to='/cart'>
-            <CartIcon />
-          </NavLink>
-          <NavLink to='/profile'>
-            <UserIcon />
-          </NavLink>
-        </>
-      } />
+    <>
+      <Header
+        links={config.HEADER}
+        additonal={
+          <>
+            <NavLink to={config.ENDPOINTS.CART}>
+              <CartIcon />
+            </NavLink>
+            <NavLink to={config.ENDPOINTS.PROFILE}>
+              <UserIcon />
+            </NavLink>
+          </>
+        }
+      />
       <Routes>
-        <Route path='/' element={<Main />} />
-        <Route path='/categories' element={<p>categories</p>} />
-        <Route path='/about' element={<p>about</p>} />
-        <Route path="/product">
+        <Route path={config.ENDPOINTS.PPODUCTS} element={<Main />} />
+        <Route path={config.ENDPOINTS.CATEGORIES} element={<p>categories</p>} />
+        <Route path={config.ENDPOINTS.ABOUT} element={<p>about</p>} />
+        <Route path={config.ENDPOINTS.PRODUCT}>
           <Route path=":id" element={<Product />} />
         </Route>
       </Routes>
-    </BrowserRouter>
-  )
+    </>
+  );
 }
 
 export default App;

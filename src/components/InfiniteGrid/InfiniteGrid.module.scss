@@ -1,0 +1,25 @@
+@import "styles/styles.scss";
+
+.infinite-grid {
+  &__products-grid {
+    width: 100%;
+    margin-top: $space-xl;
+    display: grid;
+    place-items: center;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    column-gap: 30px;
+    row-gap: 30px;
+
+    &_grid-item {
+      display: flex;
+    }
+  }
+
+  &__products-loader {
+    margin: 24px auto;
+  }
+}
+
+:global(.infinite-scroll-component__outerdiv) {
+  width: 100%;
+}

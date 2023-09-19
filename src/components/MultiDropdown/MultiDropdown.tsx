@@ -1,9 +1,10 @@
 import classNames from 'classnames';
+import { observer } from 'mobx-react-lite';
 import React from 'react';
 import Input from '../Input/Input';
 import Text from '../Text/Text';
 import ArrowDownIcon from '../icons/ArrowDownIcon/ArrowDownIcon';
-import styles from './MultiDropdown.module.scss'
+import styles from './MultiDropdown.module.scss';
 
 export type Option = {
   /** Ключ варианта, используется для отправки на бек/использования в коде */
@@ -27,23 +28,33 @@ export type MultiDropdownProps = {
   getTitle: (value: Option[]) => string;
 };
 
-
-const MultiDropdown: React.FC<MultiDropdownProps> = ({ className, options, value, onChange, disabled, getTitle, ...otherProps }) => {
+const MultiDropdown: React.FC<MultiDropdownProps> = ({
+  className,
+  options,
+  value,
+  onChange,
+  disabled,
+  getTitle,
+  ...otherProps
+}) => {
   const [isOpened, setIsOpened] = React.useState(false);
-  const [filterVal, setFilterVal] = React.useState("");
+  const [filterVal, setFilterVal] = React.useState('');
   const [currentValue, setCurrentValue] = React.useState(value);
-  const [toRender, setToRender] = React.useState(options.map((opt) => { return { key: opt.key, value: opt.value, selected: value.map((v) => v.key).includes(opt.key) } }))
-  const dropdownRef = React.useRef<HTMLDivElement | null>(null); // Explicit type annotation
+  const [toRender, setToRender] = React.useState(
+    options.map((opt) => {
+      return { key: opt.key, value: opt.value, selected: value.map((v) => v.key).includes(opt.key) };
+    }),
+  );
+  const dropdownRef = React.useRef<HTMLDivElement | null>(null);
 
   React.useEffect(() => {
     setCurrentValue(value);
   }, [value]);
 
   const handleClickOutside = (event: MouseEvent) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node) || disabled) {
+    if ((dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) || disabled) {
       setIsOpened(false);
-    }
-    else {
+    } else {
       setIsOpened(true);
     }
   };
@@ -53,13 +64,16 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({ className, options, value
     if (keys.includes(options[index].key)) {
       onChange(currentValue.filter((v) => v.key != options[index].key));
       setCurrentValue(currentValue.filter((v) => v.key != options[index].key));
-    }
-    else {
+    } else {
       onChange([...currentValue, options[index]]);
       setCurrentValue([...currentValue, options[index]]);
     }
-    setToRender(options.map((opt) => { return { key: opt.key, value: opt.value, selected: currentValue.map((v) => v.key).includes(opt.key) } }));
-  }
+    setToRender(
+      options.map((opt) => {
+        return { key: opt.key, value: opt.value, selected: currentValue.map((v) => v.key).includes(opt.key) };
+      }),
+    );
+  };
 
   React.useEffect(() => {
     document.addEventListener('click', handleClickOutside);
@@ -73,33 +87,48 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({ className, options, value
         key: opt.key,
         value: opt.value,
         selected: currentValue.map((v) => v.key).includes(opt.key),
-      }))
+      })),
     );
   }, [options, currentValue]);
 
-
   return (
     <div ref={dropdownRef} className={classNames(className, styles['dropdown-container'])} {...otherProps}>
-      <Input placeholder={getTitle(currentValue)}
+      <Input
+        placeholder={getTitle(currentValue)}
         value={isOpened || !currentValue.length ? filterVal : getTitle(currentValue)}
-        className={classNames(styles['dropdown-header'],)}
+        className={classNames(styles['dropdown__header'])}
         autoFocus={isOpened}
         afterSlot={<ArrowDownIcon />}
         disabled={disabled}
-        onChange={(val) => { setFilterVal(val) }} />
-      {!disabled && isOpened &&
-        <div className={classNames(styles['dropdown-options'])}>
-          {toRender.map((opt, index) => (
-            (opt.value.toLowerCase().includes(filterVal.toLowerCase()) || opt.selected) &&
-            <div className={classNames(styles['dropdown-option'], opt.selected && styles['dropdown-option-selected'])}
-              onClick={() => { handleOptionClick(index) }} key={opt.key}>
-              <Text color='inherit' view='p-16'>{opt.value}</Text>
-            </div>
-          ))}
+        onChange={(val) => {
+          setFilterVal(val);
+        }}
+      />
+      {!disabled && isOpened && (
+        <div className={classNames(styles['dropdown__options'])}>
+          {toRender.map(
+            (opt, index) =>
+              (opt.value.toLowerCase().includes(filterVal.toLowerCase()) || opt.selected) && (
+                <div
+                  className={classNames(
+                    styles['dropdown__option'],
+                    opt.selected && styles['dropdown__option-selected'],
+                  )}
+                  onClick={() => {
+                    handleOptionClick(index);
+                  }}
+                  key={opt.key}
+                >
+                  <Text color="inherit" view="p-16">
+                    {opt.value}
+                  </Text>
+                </div>
+              ),
+          )}
         </div>
-      }
+      )}
     </div>
   );
 };
 
-export default MultiDropdown;
+export default observer(MultiDropdown);

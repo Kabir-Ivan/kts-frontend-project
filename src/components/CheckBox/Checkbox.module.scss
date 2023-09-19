@@ -1,38 +1,35 @@
-@import './../../styles/styles.scss';
+@import "styles/styles.scss";
 
-.checkbox-container input {
+.checkbox-container {
+  width: 40px;
+  height: 40px;
+  box-sizing: border-box;
+  background-color: $checkbox-bg;
+
+  &__input {
     position: absolute;
     opacity: 0;
     cursor: pointer;
     height: 0;
     width: 0;
-}
+  }
 
-.checkbox-container {
-    width: 40px;
-    height: 40px;
-    box-sizing: border-box;
-    background-color: var(--checkbox-bg);
-    --text-primary: var(--checkbox-check);
-}
+  &.checkbox-container_disabled {
+    background-color: $checkbox-bg-disabled;
+  }
 
-.checkbox-container-disabled {
-    background-color: var(--checkbox-bg-disabled);
-    --text-primary: var(--checkbox-check-disabled);
-}
-
-.checkmark {
+  &__checkmark {
     width: 40px;
     height: 40px;
     position: relative;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-}
+  }
 
-.checkbox-container:not(.checkbox-container-disabled):hover {
-    border-radius: var(--border-radius, 0px);
-    border: 1px solid var(--checkbox-border-hover, #518581);
-    background: var(--checkbox-bg-hover, #FFF);
-    --text-primary: var(--checkbox-check-hover);
+  &:not(.checkbox-container_disabled):hover {
+    border-radius: $border-radius;
+    border: 1px solid $checkbox-border-hover;
+    background: $checkbox-bg-hover;
+  }
 }
