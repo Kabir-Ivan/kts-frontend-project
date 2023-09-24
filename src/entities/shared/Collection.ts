@@ -43,6 +43,11 @@ class Collection<K extends string | number, T> implements ICollection<K, T> {
     this._List = null;
   }
 
+  remove(key: K) {
+    delete this.entities[key];
+    this.order = this.order.filter((element: K) => element != key);
+  }
+
   getByKey(key: K) {
     return this.entities[key];
   }

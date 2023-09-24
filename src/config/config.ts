@@ -1,4 +1,4 @@
-const BASE_URL = 'https://fake-store-api.glitch.me';
+const BASE_URL = '';
 const ENDPOINTS = {
   PPODUCTS: `/`,
   CATEGORIES: `/categories`,
@@ -18,7 +18,9 @@ const config = {
     CATEGORIES_URL: `${BASE_URL}/api/categories`,
     PRODUCT_URL: `${BASE_URL}/api/products/`,
     CATEGORY_URL: `${BASE_URL}/api/categories/`,
+    CART_URL: `${BASE_URL}/api/cart`,
   },
   ENDPOINTS: ENDPOINTS,
+  BATCH_SIZE: 12,
 };
 export default config;

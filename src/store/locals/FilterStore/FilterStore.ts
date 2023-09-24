@@ -54,7 +54,7 @@ export class FilterStore implements IFilterStore, ILocalStore {
   };
 
   setFilters = (filters: FiltersType) => {
-    this._input = filters.input != undefined ? filters.input : this._input;
+    this._input = filters.input != undefined ? filters.input : this._input; //Input can become empty. filters.input || this._input is not an option
     this._dropdown = filters.dropdown || this._dropdown;
     const params: Record<string, string> = {
       include: this._dropdown.map((el) => el.key).join('|'),

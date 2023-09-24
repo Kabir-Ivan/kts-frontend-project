@@ -1,0 +1,31 @@
+@import "styles/styles.scss";
+
+.counter-container {
+  width: 150px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.counter__text {
+  display: flex;
+  width: 60px;
+  padding: 10px;
+  justify-content: center;
+  overflow: hidden;
+  margin: auto auto;
+}
+
+.counter__button {
+  user-select: none;
+  display: flex;
+  width: 40px;
+  height: 40px;
+  border: 2px solid black;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  margin: auto auto;
+}

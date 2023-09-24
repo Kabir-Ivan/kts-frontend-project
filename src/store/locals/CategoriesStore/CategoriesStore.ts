@@ -62,8 +62,8 @@ export class CategoriesStore implements ICategoriesStore, ILocalStore {
         method: 'get',
         url: config.API.CATEGORIES_URL,
       });
-      const normalized = response.data.categories.map((category: CategoryApi) => CategoryModel.fromJson(category));
       runInAction(() => {
+        const normalized = response.data.categories.map((category: CategoryApi) => CategoryModel.fromJson(category));
         this._meta = Meta.success;
         this._list.add(normalized);
         this._total = normalized.length;

@@ -32,6 +32,11 @@ pre {
   width: 100%;
 }
 
+:global(.full) {
+  height: 100%;
+  width: 100%;
+}
+
 :global(.centered) {
   margin-left: auto;
   margin-right: auto;
@@ -62,4 +67,8 @@ pre {
 
 ::-webkit-scrollbar-thumb:hover {
   background: $scrollbar-thumb-hover;
+}
+
+:root {
+  --swiper-theme-color: #151411 !important; //Yes, I know this is bad...
 }

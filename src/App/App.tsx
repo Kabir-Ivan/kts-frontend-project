@@ -8,10 +8,11 @@ import UserIcon from 'components/icons/UserIcon';
 import config from 'config/config';
 import Main from 'pages/Main';
 import Product from 'pages/Product';
-import { useQueryParamsStoreInit } from 'store/globals/RootStore';
+import { useCartStoreInit, useQueryParamsStoreInit } from 'store/globals/RootStore';
 
 function App() {
   useQueryParamsStoreInit();
+  useCartStoreInit();
 
   return (
     <>

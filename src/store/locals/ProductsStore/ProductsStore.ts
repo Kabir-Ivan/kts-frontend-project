@@ -6,10 +6,10 @@ import Collection from 'entities/shared';
 import { ILocalStore, Meta } from 'store/types';
 
 export type GetProductsListParams = {
-  batchSize: number;
-  substring: string;
-  categories: number[];
-  clear: boolean;
+  batchSize?: number;
+  substring?: string;
+  categories?: number[];
+  clear?: boolean;
 };
 
 export interface IProductsStore {
@@ -79,16 +79,17 @@ export class ProductsStore implements IProductsStore, ILocalStore {
         url: config.API.PRODUCTS_URL,
         params: {
           offset: this._list.length,
-          limit: params.batchSize,
-          include: params.categories.join('|'),
-          substring: params.substring,
+          limit: params.batchSize || 1e9,
+          include: params.categories?.join('|') || '',
+          substring: params.substring || '',
         },
       });
-      const normalizedProducts = response.data.products.map((product: ProductApi) => ProductModel.fromJson(product));
-      if (params.clear) {
-        this.clear();
-      }
+
       runInAction(() => {
+        const normalizedProducts = response.data.products.map((product: ProductApi) => ProductModel.fromJson(product));
+        if (params.clear) {
+          this.clear();
+        }
         this._meta = Meta.success;
         this._list.add(normalizedProducts);
         this._total = response.data.total;
