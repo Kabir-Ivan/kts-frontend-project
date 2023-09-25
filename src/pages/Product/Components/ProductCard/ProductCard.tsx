@@ -49,7 +49,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ isLoaded, product }) => {
   return (
     <div className={styles['product-card']}>
       <div className={styles['product-card__image-container']}>
-        {isLoaded ? (
+        {isLoaded && product ? (
           <>
             <Swiper
               spaceBetween={20}
@@ -58,15 +58,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ isLoaded, product }) => {
               pagination={{ clickable: true }}
               modules={[Navigation]}
             >
-              <SwiperSlide className={styles['product-card__image']}>
-                <img src={product ? (product.images || [''])[0] : ''} className={styles['product-card__image']} />
-              </SwiperSlide>
-              <SwiperSlide className={styles['product-card__image']}>
-                <img src={product ? (product.images || [''])[0] : ''} className={styles['product-card__image']} />
-              </SwiperSlide>
-              <SwiperSlide className={styles['product-card__image']}>
-                <img src={product ? (product.images || [''])[0] : ''} className={styles['product-card__image']} />
-              </SwiperSlide>
+              {product.images.map((image, i) => (
+                <SwiperSlide className={styles['product-card__image']} key={i}>
+                  <img src={image} className={styles['product-card__image']} />
+                </SwiperSlide>
+              ))}
             </Swiper>
           </>
         ) : (
