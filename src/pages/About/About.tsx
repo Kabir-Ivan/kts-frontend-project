@@ -3,6 +3,10 @@ import Text from 'components/Text';
 import styles from './About.module.scss';
 
 const About: React.FC = () => {
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <div className={styles['about-container']}>
       <Text view="title" weight="bold">

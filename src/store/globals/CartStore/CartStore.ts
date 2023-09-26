@@ -24,6 +24,7 @@ export class CartStore implements ILocalStore, ICartStore {
     this._list = new Collection<number, CartItemModel>([], (element) => element.id);
     this._meta = Meta.initial;
     makeAutoObservable(this);
+    this.getCart();
   }
 
   get isLoaded(): boolean {

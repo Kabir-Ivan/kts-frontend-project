@@ -25,10 +25,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   }, [product.id]);
 
   const go = React.useCallback(() => {
-    window.scrollTo({
-      top: 0,
-    });
     navigate(`${config.ENDPOINTS.PRODUCT}/${product.id}`);
+    window.scrollTo(0, 0);
   }, [navigate, product.id]);
 
   React.useEffect(() => {

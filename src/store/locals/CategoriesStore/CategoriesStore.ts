@@ -26,6 +26,7 @@ export class CategoriesStore implements ICategoriesStore, ILocalStore {
       isLoaded: computed,
       getCategoriesList: action,
     });
+    this.getCategoriesList();
   }
 
   get list(): Collection<number, CategoryModel> {

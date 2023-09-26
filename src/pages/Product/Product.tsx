@@ -5,7 +5,8 @@ import InfiniteGrid from 'components/InfiniteGrid';
 import Text from 'components/Text';
 import ArrowIcon from 'components/icons/ArrowIcon';
 import config from 'config/config';
-import { SingleProductStore, CategoriesStore, ProductsStore } from 'store/locals';
+import RootStore from 'store/globals';
+import { SingleProductStore, ProductsStore } from 'store/locals';
 import { useLocalStore } from 'utils/useLocalStore';
 import ProductCard from './Components/ProductCard';
 import styles from './Product.module.scss';
@@ -13,24 +14,23 @@ import styles from './Product.module.scss';
 const Product = () => {
   const { id } = useParams();
   const singleProductStore: SingleProductStore = useLocalStore(() => new SingleProductStore());
-  const categoriesStore: CategoriesStore = useLocalStore(() => new CategoriesStore());
   const productsStore: ProductsStore = useLocalStore(() => new ProductsStore());
 
   React.useEffect(() => {
-    categoriesStore.getCategoriesList();
-  }, [categoriesStore]);
+    window.scrollTo(0, 0);
+  }, []);
 
   const load = React.useCallback(async () => {
     productsStore.getProductsList({
       substring: '',
-      categories: categoriesStore.list
+      categories: RootStore.categories.list
         .asList()
         .filter((c) => c.name == singleProductStore.product?.category)
         .map((c) => c.id),
       batchSize: config.BATCH_SIZE,
       clear: false,
     });
-  }, [categoriesStore.list, productsStore, singleProductStore.product?.category]);
+  }, [productsStore, singleProductStore.product?.category]);
 
   React.useEffect(() => {
     singleProductStore.getProduct({

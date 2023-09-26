@@ -2,6 +2,7 @@ import { observer } from 'mobx-react-lite';
 import React from 'react';
 
 import InfiniteGrid from 'components/InfiniteGrid';
+import Nothing from 'components/Nothing';
 import Text from 'components/Text';
 import config from 'config/config';
 import RootStore from 'store/globals';
@@ -12,6 +13,10 @@ import styles from './Main.module.scss';
 
 const Main: React.FC = () => {
   const productsStore: ProductsStore = useLocalStore(() => new ProductsStore());
+
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const loadProducts = React.useCallback(
     (clear: boolean) => {
@@ -54,7 +59,11 @@ const Main: React.FC = () => {
       <Text view="p-20" weight="bold" className={styles['total-text']}>
         Total products: {productsStore.isLoaded ? productsStore.total : `Loading...`}
       </Text>
-      <InfiniteGrid products={productsStore.list} loadMore={loadMore} hasMore={productsStore.hasMore} />
+      {!productsStore.isLoaded || productsStore.list.length ? (
+        <InfiniteGrid products={productsStore.list} loadMore={loadMore} hasMore={productsStore.hasMore} />
+      ) : (
+        <Nothing />
+      )}
     </div>
   );
 };

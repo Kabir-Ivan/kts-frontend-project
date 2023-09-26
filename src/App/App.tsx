@@ -9,13 +9,13 @@ import UserIcon from 'components/icons/UserIcon';
 import config from 'config/config';
 import About from 'pages/About';
 import Cart from 'pages/Cart';
+import Categories from 'pages/Categories';
 import Main from 'pages/Main';
 import Product from 'pages/Product';
-import { useCartStoreInit, useQueryParamsStoreInit, useProductsStoreInit } from 'store/globals/RootStore';
+import { useQueryParamsStoreInit, useProductsStoreInit } from 'store/globals/RootStore';
 
 function App() {
   useQueryParamsStoreInit();
-  useCartStoreInit();
   useProductsStoreInit();
 
   return (
@@ -35,7 +35,7 @@ function App() {
       />
       <Routes>
         <Route path={config.ENDPOINTS.PPODUCTS} element={<Main />} />
-        <Route path={config.ENDPOINTS.CATEGORIES} element={<p>categories</p>} />
+        <Route path={config.ENDPOINTS.CATEGORIES} element={<Categories />} />
         <Route path={config.ENDPOINTS.ABOUT} element={<About />} />
         <Route path={config.ENDPOINTS.CART} element={<Cart />} />
         <Route path={config.ENDPOINTS.PRODUCT}>
