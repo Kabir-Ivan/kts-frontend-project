@@ -48,7 +48,7 @@ const InputContainer: React.FC<InputContainerProps> = ({ loadProducts }) => {
         .slice()
         .sort()
         .map((option: Option) => option.value)
-        .join(', '),
+        .join(', ') || 'Select categories',
     [],
   );
 

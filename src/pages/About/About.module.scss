@@ -1,0 +1,19 @@
+@import "styles/styles.scss";
+
+.about-container {
+  margin-top: 200px;
+  display: flex;
+  flex-direction: column;
+  margin-left: auto;
+  margin-right: auto;
+  gap: $space-xl;
+  width: 90%;
+}
+
+.about {
+  &__categories-descriptions {
+    display: flex;
+    flex-direction: column;
+    gap: $space-s;
+  }
+}

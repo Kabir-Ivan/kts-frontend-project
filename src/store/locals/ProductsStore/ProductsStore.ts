@@ -21,6 +21,7 @@ export class ProductsStore implements IProductsStore, ILocalStore {
   private _list: Collection<number, ProductModel> = new Collection<number, ProductModel>([], (element) => element.id);
   private _meta: Meta = Meta.initial;
   private _total: number = 0;
+  private id = Math.random();
 
   constructor() {
     makeObservable<ProductsStore, PrivateFields>(this, {
@@ -57,7 +58,6 @@ export class ProductsStore implements IProductsStore, ILocalStore {
   };
 
   clear = (): void => {
-    this._meta = Meta.initial;
     this._list.clear();
     this._total = 0;
   };
@@ -66,7 +66,6 @@ export class ProductsStore implements IProductsStore, ILocalStore {
     if (this._meta === Meta.loading) {
       return;
     }
-
     this._meta = Meta.loading;
 
     if (params.clear) {
@@ -90,9 +89,9 @@ export class ProductsStore implements IProductsStore, ILocalStore {
         if (params.clear) {
           this.clear();
         }
-        this._meta = Meta.success;
         this._list.add(normalizedProducts);
         this._total = response.data.total;
+        this._meta = Meta.success;
       });
     } catch {
       this._meta = Meta.error;

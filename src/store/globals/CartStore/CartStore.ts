@@ -1,8 +1,10 @@
 import axios from 'axios';
-import { action, computed, makeObservable, observable, runInAction } from 'mobx';
+import { makeAutoObservable, runInAction } from 'mobx';
 import config from 'config/config';
 import CartItemModel, { CartItemApi } from 'entities/cartItem';
+import ProductModel from 'entities/product';
 import Collection from 'entities/shared';
+import RootStore from 'store/globals';
 import { ILocalStore, Meta } from 'store/types';
 
 export interface ICartStore {
@@ -10,7 +12,10 @@ export interface ICartStore {
   updateCart(): Promise<void>;
 }
 
-type PrivateFields = '_list' | '_meta';
+export type CartStoreProduct = {
+  product: ProductModel;
+  amount: number;
+};
 export class CartStore implements ILocalStore, ICartStore {
   private _list: Collection<number, CartItemModel> = {} as Collection<number, CartItemModel>;
   private _meta: Meta;
@@ -18,17 +23,7 @@ export class CartStore implements ILocalStore, ICartStore {
   constructor() {
     this._list = new Collection<number, CartItemModel>([], (element) => element.id);
     this._meta = Meta.initial;
-    makeObservable<CartStore, PrivateFields>(this, {
-      _list: observable,
-      _meta: observable,
-      isLoaded: computed,
-      list: computed,
-      meta: computed,
-      total: computed,
-      add: action,
-      remove: action,
-      getCart: action,
-    });
+    makeAutoObservable(this);
   }
 
   get isLoaded(): boolean {
@@ -45,6 +40,23 @@ export class CartStore implements ILocalStore, ICartStore {
 
   get total(): number {
     return this._list.length;
+  }
+
+  get products(): CartStoreProduct[] {
+    return this._list.asList().map((item) => ({
+      product: RootStore.products.list.getByKey(item.id),
+      amount: item.amount,
+    }));
+  }
+
+  get totalPrice(): number {
+    if (RootStore.products.isLoaded) {
+      return this.products.reduce(
+        (partialSum, item) => partialSum + item.amount * Number(String(item.product.price).replace('.', '')),
+        0,
+      );
+    }
+    return 0;
   }
 
   getAmount(id: number): number {

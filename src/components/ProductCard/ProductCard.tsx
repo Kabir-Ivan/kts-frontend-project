@@ -24,6 +24,17 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     setIsButton(RootStore.cart.getAmount(product.id) < 1);
   }, [product.id]);
 
+  const go = React.useCallback(() => {
+    window.scrollTo({
+      top: 0,
+    });
+    navigate(`${config.ENDPOINTS.PRODUCT}/${product.id}`);
+  }, [navigate, product.id]);
+
+  React.useEffect(() => {
+    setIsButton(RootStore.cart.getAmount(product.id) < 1);
+  }, [RootStore.cart.total]);
+
   const [isButton, setIsButton] = React.useState(RootStore.cart.getAmount(product.id) < 1);
 
   return (
@@ -40,9 +51,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           <Counter value={RootStore.cart.getAmount(product.id)} onPlus={addCallback} onMinus={removeCallback} />
         )
       }
-      onClick={() => {
-        navigate(`${config.ENDPOINTS.PRODUCT}/${product.id}`);
-      }}
+      onClick={go}
     />
   );
 };

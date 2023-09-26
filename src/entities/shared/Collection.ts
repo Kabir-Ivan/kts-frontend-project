@@ -25,6 +25,9 @@ class Collection<K extends string | number, T> implements ICollection<K, T> {
       order: this.order,
       entries: this.entities,
       _List: this._List,
+      add: this.add,
+      remove: this.remove,
+      clear: this.clear,
     });
   }
 
@@ -44,6 +47,7 @@ class Collection<K extends string | number, T> implements ICollection<K, T> {
   }
 
   remove(key: K) {
+    this._List = null;
     delete this.entities[key];
     this.order = this.order.filter((element: K) => element != key);
   }

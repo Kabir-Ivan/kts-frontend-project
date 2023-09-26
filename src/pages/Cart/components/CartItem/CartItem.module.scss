@@ -1,0 +1,44 @@
+@import "styles/styles.scss";
+
+.cart-item {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 160px;
+  @media (max-width: 768px) {
+    flex-direction: column;
+    height: auto;
+    padding-top: $space-s;
+    padding-bottom: $space-s;
+  }
+  gap: $space-l;
+  border-top: 2px solid $brand;
+  border-bottom: 2px solid $brand;
+  border-radius: border-box;
+
+  &__image {
+    display: flex;
+    align-self: center;
+    width: 140px;
+    height: 140px;
+  }
+
+  &__name {
+    display: flex;
+    align-self: center;
+    width: 100%;
+    @media (max-width: 768px) {
+      width: auto;
+    }
+  }
+
+  &__price {
+    display: flex;
+    align-self: center;
+  }
+
+  &__amount {
+    display: flex;
+    align-self: center;
+  }
+}

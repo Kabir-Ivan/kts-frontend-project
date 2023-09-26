@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Navigation } from 'swiper/modules';
+import { Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import Button from 'components/Button';
 import Counter from 'components/Counter';
@@ -44,7 +44,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ isLoaded, product }) => {
     if (product) {
       setIsButton(RootStore.cart.getAmount(product.id) < 1);
     }
-  }, [product]);
+  }, [product, RootStore.cart.total]);
 
   return (
     <div className={styles['product-card']}>
@@ -56,7 +56,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ isLoaded, product }) => {
               slidesPerView={1}
               navigation
               pagination={{ clickable: true }}
-              modules={[Navigation]}
+              modules={[Navigation, Pagination]}
             >
               {product.images.map((image, i) => (
                 <SwiperSlide className={styles['product-card__image']} key={i}>

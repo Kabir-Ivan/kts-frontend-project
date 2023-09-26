@@ -2,17 +2,21 @@ import './App.scss';
 
 import React from 'react';
 import { NavLink, Route, Routes } from 'react-router-dom';
+import Footer from 'components/Footer';
 import Header from 'components/Header';
 import CartIcon from 'components/icons/CartIcon';
 import UserIcon from 'components/icons/UserIcon';
 import config from 'config/config';
+import About from 'pages/About';
+import Cart from 'pages/Cart';
 import Main from 'pages/Main';
 import Product from 'pages/Product';
-import { useCartStoreInit, useQueryParamsStoreInit } from 'store/globals/RootStore';
+import { useCartStoreInit, useQueryParamsStoreInit, useProductsStoreInit } from 'store/globals/RootStore';
 
 function App() {
   useQueryParamsStoreInit();
   useCartStoreInit();
+  useProductsStoreInit();
 
   return (
     <>
@@ -32,11 +36,13 @@ function App() {
       <Routes>
         <Route path={config.ENDPOINTS.PPODUCTS} element={<Main />} />
         <Route path={config.ENDPOINTS.CATEGORIES} element={<p>categories</p>} />
-        <Route path={config.ENDPOINTS.ABOUT} element={<p>about</p>} />
+        <Route path={config.ENDPOINTS.ABOUT} element={<About />} />
+        <Route path={config.ENDPOINTS.CART} element={<Cart />} />
         <Route path={config.ENDPOINTS.PRODUCT}>
           <Route path=":id" element={<Product />} />
         </Route>
       </Routes>
+      <Footer />
     </>
   );
 }
