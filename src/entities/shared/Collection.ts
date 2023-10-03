@@ -39,11 +39,11 @@ class Collection<K extends string | number, T> implements ICollection<K, T> {
 
   add(array: T[]) {
     const initialLength = this.order.length;
+    this._List = null;
     array.forEach((element) => this.order.push(this.getKey(element)));
     array.forEach((value, index) => {
       this.entities[this.order[initialLength + index]] = value;
     });
-    this._List = null;
   }
 
   remove(key: K) {

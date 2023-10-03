@@ -1,0 +1,17 @@
+@import "styles/styles.scss";
+
+.cart-icon-header {
+  position: relative;
+}
+
+.cart-icon-header__items-count {
+  font-family: "Roboto";
+  font-size: 12px;
+  width: fit-content;
+  height: fit-content;
+  padding: 4px;
+  background-color: $brand;
+  border-radius: 8px;
+  color: white;
+  position: absolute;
+}

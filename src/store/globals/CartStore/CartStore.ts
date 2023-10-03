@@ -28,7 +28,7 @@ export class CartStore implements ILocalStore, ICartStore {
   }
 
   get isLoaded(): boolean {
-    return this._meta == Meta.success;
+    return this._meta == Meta.success && RootStore.products.isLoaded;
   }
 
   get list(): Collection<number, CartItemModel> {
@@ -44,16 +44,19 @@ export class CartStore implements ILocalStore, ICartStore {
   }
 
   get products(): CartStoreProduct[] {
-    return this._list.asList().map((item) => ({
-      product: RootStore.products.list.getByKey(item.id),
-      amount: item.amount,
-    }));
+    if (this.isLoaded) {
+      return this._list.asList().map((item) => ({
+        product: RootStore.products.list.getByKey(item.id),
+        amount: item.amount,
+      }));
+    }
+    return [];
   }
 
   get totalPrice(): number {
     if (RootStore.products.isLoaded) {
       return this.products.reduce(
-        (partialSum, item) => partialSum + item.amount * Number(String(item.product.price).replace('.', '')),
+        (partialSum, item) => partialSum + item.amount * Number(String(item.product?.price || 0).replace('.', '')),
         0,
       );
     }

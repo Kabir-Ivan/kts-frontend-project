@@ -1,0 +1,8 @@
+@import "styles/styles.scss";
+
+.not-found {
+  min-height: 80vh;
+  padding-top: Max(190px, 30vh);
+  text-align: center;
+  gap: $space-m;
+}

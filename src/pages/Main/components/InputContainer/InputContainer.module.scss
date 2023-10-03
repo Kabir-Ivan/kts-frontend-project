@@ -22,6 +22,6 @@
   }
 
   &__categories-dropdown {
-    width: 368px;
+    width: Min(368px, 90vw);
   }
 }

@@ -7,6 +7,7 @@
   align-items: flex-start;
   gap: $space-xxs;
   user-select: none;
+  width: Min(368px, 90vw);
 }
 
 .dropdown {
@@ -14,7 +15,7 @@
     position: absolute;
     top: calc(52px + $space-xxs);
     display: flex;
-    width: 368px;
+    width: Min(368px, 90vw);
     flex-direction: column;
     align-items: flex-start;
     border-radius: $border-radius;
@@ -32,6 +33,7 @@
 
   &__option {
     display: flex;
+    cursor: pointer;
     padding: $space-s $space-xs;
     justify-content: center;
     align-items: center;
@@ -47,6 +49,7 @@
   }
 
   &__header_arrow {
+    cursor: pointer;
     transition: transform 0.3s ease;
   }
   &__header_arrow_rotate {

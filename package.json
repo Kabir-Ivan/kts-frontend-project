@@ -21,6 +21,7 @@
     "cookie-parser": "^1.4.6",
     "cross-env": "^7.0.3",
     "css-loader": "^6.8.1",
+    "emailjs": "^4.0.3",
     "file-loader": "^6.2.0",
     "mini-css-extract-plugin": "^2.7.6",
     "mobx": "^6.10.2",
