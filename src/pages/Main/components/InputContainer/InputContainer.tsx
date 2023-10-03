@@ -4,7 +4,8 @@ import Button from 'components/Button';
 import Input from 'components/Input';
 import MultiDropdown, { Option } from 'components/MultiDropdown';
 import CategoryModel from 'entities/category';
-import { CategoriesStore, FilterStore } from 'store/locals';
+import RootStore from 'store/globals';
+import { FilterStore } from 'store/locals';
 import { useLocalStore } from 'utils/useLocalStore';
 import styles from './InputContainer.module.scss';
 
@@ -13,12 +14,7 @@ export type InputContainerProps = {
 };
 
 const InputContainer: React.FC<InputContainerProps> = ({ loadProducts }) => {
-  const categoriesLoader: CategoriesStore = useLocalStore(() => new CategoriesStore());
   const filterLoader: FilterStore = useLocalStore(() => new FilterStore());
-
-  React.useEffect(() => {
-    categoriesLoader.getCategoriesList();
-  }, [categoriesLoader]);
 
   const search = React.useCallback(() => {
     loadProducts(true);
@@ -48,7 +44,7 @@ const InputContainer: React.FC<InputContainerProps> = ({ loadProducts }) => {
         .slice()
         .sort()
         .map((option: Option) => option.value)
-        .join(', '),
+        .join(', ') || 'Select categories',
     [],
   );
 
@@ -62,7 +58,7 @@ const InputContainer: React.FC<InputContainerProps> = ({ loadProducts }) => {
       </div>
       <MultiDropdown
         className={styles['input-container__categories-dropdown']}
-        options={categoriesLoader.list.asList().map((category: CategoryModel) => {
+        options={RootStore.categories.list.asList().map((category: CategoryModel) => {
           return { key: String(category.id), value: category.name };
         })}
         value={filterLoader.dropdown}

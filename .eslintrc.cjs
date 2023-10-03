@@ -29,6 +29,7 @@ module.exports = {
   plugins: ['@typescript-eslint', 'import', 'prettier', 'react', 'react-hooks'],
   rules: {
     'no-console': 'warn',
+    '@typescript-eslint/no-var-requires': 'off',
     'import/order': [
       'error',
       {

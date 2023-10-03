@@ -1,10 +1,11 @@
 import classNames from 'classnames';
+import { observer } from 'mobx-react-lite';
 import * as React from 'react';
 import styles from './Text.module.scss';
 
 export type TextProps = {
   className?: string;
-  view?: 'title' | 'button' | 'p-20' | 'p-18' | 'p-16' | 'p-14';
+  view?: 'title' | 'button' | 'subtitle' | 'p-20' | 'p-18' | 'p-16' | 'p-14';
   tag?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'div' | 'p' | 'span';
   weight?: 'normal' | 'medium' | 'bold';
   children: React.ReactNode;
@@ -33,4 +34,4 @@ const Text: React.FC<TextProps> = ({ className, view, tag = 'div', weight = 'nor
   );
 };
 
-export default Text;
+export default observer(Text);

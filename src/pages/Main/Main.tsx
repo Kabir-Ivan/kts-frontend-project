@@ -2,7 +2,9 @@ import { observer } from 'mobx-react-lite';
 import React from 'react';
 
 import InfiniteGrid from 'components/InfiniteGrid';
+import Nothing from 'components/Nothing';
 import Text from 'components/Text';
+import config from 'config/config';
 import RootStore from 'store/globals';
 import { ProductsStore } from 'store/locals';
 import { useLocalStore } from 'utils/useLocalStore';
@@ -10,31 +12,33 @@ import InputContainer from './components/InputContainer';
 import styles from './Main.module.scss';
 
 const Main: React.FC = () => {
-  const productsLoader: ProductsStore = useLocalStore(() => new ProductsStore());
+  const productsStore: ProductsStore = useLocalStore(() => new ProductsStore());
 
-  const BATCH_SIZE = 24;
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const loadProducts = React.useCallback(
     (clear: boolean) => {
-      productsLoader.getProductsList({
+      productsStore.getProductsList({
         substring: RootStore.query.getParam('substring')?.toString() || '',
         categories: (RootStore.query.getParam('include') || '')
           ?.toString()
           .split('|')
           .filter((v) => v && v != ' ')
           .map((v) => Number(v)),
-        batchSize: BATCH_SIZE,
+        batchSize: config.BATCH_SIZE,
         clear: clear,
       });
     },
-    [productsLoader],
+    [productsStore],
   );
 
   React.useEffect(() => {
-    if (productsLoader.list && productsLoader.list.length === 0) {
+    if (productsStore.list && productsStore.list.length === 0) {
       loadProducts(true);
     }
-  }, [productsLoader.list, loadProducts]);
+  }, [productsStore.list, loadProducts]);
 
   const loadMore = React.useCallback(() => {
     loadProducts(false);
@@ -53,9 +57,13 @@ const Main: React.FC = () => {
       </div>
       <InputContainer loadProducts={loadProducts} />
       <Text view="p-20" weight="bold" className={styles['total-text']}>
-        Total products: {productsLoader.isLoaded ? productsLoader.total : `Loading...`}
+        Total products: {productsStore.isLoaded ? productsStore.total : `Loading...`}
       </Text>
-      <InfiniteGrid products={productsLoader.list} loadMore={loadMore} hasMore={productsLoader.hasMore} />
+      {!productsStore.isLoaded || productsStore.list.length ? (
+        <InfiniteGrid products={productsStore.list} loadMore={loadMore} hasMore={productsStore.hasMore} />
+      ) : (
+        <Nothing />
+      )}
     </div>
   );
 };

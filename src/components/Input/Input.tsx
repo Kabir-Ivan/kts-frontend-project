@@ -7,16 +7,26 @@ export type InputProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onCh
   /** Значение поля */
   value: string;
   /** Callback, вызываемый при вводе данных в поле */
-  onChange: (value: string) => void;
+  onChange?: (value: string) => void;
+  /** Callback, вызываемый при вводе данных в поле */
+  formatter?: (value: string) => string;
   /** Слот для иконки справа */
   afterSlot?: React.ReactNode;
 };
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ disabled, className, value, onChange, afterSlot, ...otherProps }) => {
-    const [currentValue, setCurrentValue] = React.useState(value);
+  ({
+    disabled,
+    className,
+    value,
+    onChange = () => {},
+    formatter = (value: string) => value,
+    afterSlot,
+    ...otherProps
+  }) => {
+    const [currentValue, setCurrentValue] = React.useState(formatter(value));
     React.useEffect(() => {
-      setCurrentValue(value);
+      setCurrentValue(formatter(value));
     }, [value]);
     return (
       <div className={classNames(className, styles['input-container'], disabled && styles['input-container_disabled'])}>
@@ -26,10 +36,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           value={currentValue}
           onChange={(e) => {
             onChange(e.target.value);
-            setCurrentValue(e.target.value);
+            setCurrentValue(formatter(e.target.value));
           }}
           {...otherProps}
-          type="text"
         />
         {afterSlot}
       </div>

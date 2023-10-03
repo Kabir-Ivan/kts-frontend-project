@@ -7,8 +7,25 @@
   height: 100%;
   width: 100%;
 
+  &-title {
+    margin: 0;
+    height: 48px;
+    width: Min(200px, 50vw);
+  }
+
+  &-button {
+    margin: 0;
+    height: 48px;
+    width: 140px;
+  }
+
+  &-price {
+    height: 48px;
+    width: 100px;
+  }
+
   &-text {
-    height: 52px;
+    height: 24px;
     width: 100%;
   }
 }

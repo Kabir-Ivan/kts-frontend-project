@@ -37,7 +37,8 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
   getTitle,
   ...otherProps
 }) => {
-  const [isOpened, setIsOpened] = React.useState(false);
+  // eslint-disable-next-line prefer-const
+  let [isOpened, setIsOpened] = React.useState(false);
   const [filterVal, setFilterVal] = React.useState('');
   const [currentValue, setCurrentValue] = React.useState(value);
   const [toRender, setToRender] = React.useState(
@@ -46,18 +47,28 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
     }),
   );
   const dropdownRef = React.useRef<HTMLDivElement | null>(null);
+  const iconRef = React.useRef<HTMLDivElement | null>(null);
 
   React.useEffect(() => {
     setCurrentValue(value);
   }, [value]);
 
-  const handleClickOutside = (event: MouseEvent) => {
-    if ((dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) || disabled) {
-      setIsOpened(false);
-    } else {
-      setIsOpened(true);
-    }
-  };
+  const handleClickOutside = React.useCallback(
+    (event: MouseEvent) => {
+      if (
+        (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) ||
+        (iconRef.current && iconRef.current.contains(event.target as Node) && isOpened) ||
+        disabled
+      ) {
+        isOpened = false;
+        setIsOpened(false);
+      } else {
+        isOpened = true;
+        setIsOpened(true);
+      }
+    },
+    [disabled, isOpened],
+  );
 
   const handleOptionClick = (index: number) => {
     const keys = currentValue.map((v) => v.key);
@@ -98,14 +109,23 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
         value={isOpened || !currentValue.length ? filterVal : getTitle(currentValue)}
         className={classNames(styles['dropdown__header'])}
         autoFocus={isOpened}
-        afterSlot={<ArrowDownIcon />}
+        afterSlot={
+          <div ref={iconRef}>
+            <ArrowDownIcon
+              className={classNames(
+                styles['dropdown__header_arrow'],
+                isOpened && styles['dropdown__header_arrow_rotate'],
+              )}
+            />
+          </div>
+        }
         disabled={disabled}
         onChange={(val) => {
           setFilterVal(val);
         }}
       />
-      {!disabled && isOpened && (
-        <div className={classNames(styles['dropdown__options'])}>
+      {!disabled && (
+        <div className={classNames(styles['dropdown__options'], isOpened && styles['dropdown__options_opened'])}>
           {toRender.map(
             (opt, index) =>
               (opt.value.toLowerCase().includes(filterVal.toLowerCase()) || opt.selected) && (

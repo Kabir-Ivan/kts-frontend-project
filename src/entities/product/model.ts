@@ -10,34 +10,18 @@ class ProductModel implements IProduct {
   images: string[];
   category: string;
 
-  constructor(
-    id: number,
-    title: string,
-    subtitle: string,
-    price: number,
-    description: string,
-    images: string[],
-    category: string,
-  ) {
-    this.id = id;
-    this.title = title;
-    this.subtitle = subtitle;
-    this.price = price;
-    this.description = description;
-    this.images = images;
-    this.category = category;
+  constructor(data: ProductApi) {
+    this.id = data.id;
+    this.title = data.title;
+    this.subtitle = data.subtitle;
+    this.price = data.price;
+    this.description = data.description;
+    this.images = data.images;
+    this.category = data.category;
   }
 
   static fromJson(from: ProductApi): ProductModel {
-    return new ProductModel(
-      from.id,
-      from.title,
-      from.subtitle,
-      from.price,
-      from.description,
-      from.images,
-      from.category,
-    );
+    return new ProductModel(from);
   }
 }
 

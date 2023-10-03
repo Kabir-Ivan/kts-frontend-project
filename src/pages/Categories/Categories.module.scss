@@ -1,0 +1,24 @@
+@import "styles/styles.scss";
+
+.categories {
+  margin-top: 200px;
+  display: flex;
+  min-height: 80vh;
+  flex-direction: column;
+  align-items: center;
+  gap: $space-xl;
+
+  &__list {
+    width: 100%;
+    margin-top: $space-xl;
+    display: grid;
+    place-items: center;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    column-gap: 30px;
+    row-gap: 30px;
+
+    &_grid-item {
+      display: flex;
+    }
+  }
+}

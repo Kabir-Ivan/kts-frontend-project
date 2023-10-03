@@ -1,0 +1,16 @@
+@import "styles/styles.scss";
+
+.order {
+  padding: $space-s;
+  border: 2px solid $text-color;
+  display: flex;
+  flex-direction: column;
+  gap: $space-s;
+  &__items {
+    width: 90%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: $space-xs;
+  }
+}

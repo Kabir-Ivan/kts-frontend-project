@@ -5,39 +5,38 @@ import InfiniteGrid from 'components/InfiniteGrid';
 import Text from 'components/Text';
 import ArrowIcon from 'components/icons/ArrowIcon';
 import config from 'config/config';
-import { SingleProductStore, CategoriesStore, ProductsStore } from 'store/locals';
+import RootStore from 'store/globals';
+import { SingleProductStore, ProductsStore } from 'store/locals';
 import { useLocalStore } from 'utils/useLocalStore';
 import ProductCard from './Components/ProductCard';
 import styles from './Product.module.scss';
 
 const Product = () => {
   const { id } = useParams();
-  const singleProductLoader: SingleProductStore = useLocalStore(() => new SingleProductStore());
-  const categoriesLoader: CategoriesStore = useLocalStore(() => new CategoriesStore());
-  const productsLoader: ProductsStore = useLocalStore(() => new ProductsStore());
-  const BATCH_SIZE = 6;
+  const singleProductStore: SingleProductStore = useLocalStore(() => new SingleProductStore());
+  const productsStore: ProductsStore = useLocalStore(() => new ProductsStore());
 
   React.useEffect(() => {
-    categoriesLoader.getCategoriesList();
-  }, [categoriesLoader]);
+    window.scrollTo(0, 0);
+  }, []);
 
   const load = React.useCallback(async () => {
-    productsLoader.getProductsList({
+    productsStore.getProductsList({
       substring: '',
-      categories: categoriesLoader.list
+      categories: RootStore.categories.list
         .asList()
-        .filter((c) => c.name == singleProductLoader.product?.category)
+        .filter((c) => c.name == singleProductStore.product?.category)
         .map((c) => c.id),
-      batchSize: BATCH_SIZE,
+      batchSize: config.BATCH_SIZE,
       clear: false,
     });
-  }, [categoriesLoader.list, productsLoader, singleProductLoader.product?.category]);
+  }, [productsStore, singleProductStore.product?.category]);
 
   React.useEffect(() => {
-    singleProductLoader.getProduct({
+    singleProductStore.getProduct({
       id: Number(id),
     });
-  }, [id, singleProductLoader]);
+  }, [id, singleProductStore]);
 
   const navigate = useNavigate();
 
@@ -55,14 +54,14 @@ const Product = () => {
         </div>
       </div>
 
-      <ProductCard isLoaded={singleProductLoader.isLoaded} product={singleProductLoader.product} />
+      <ProductCard isLoaded={singleProductStore.isLoaded} product={singleProductStore.product} />
 
-      {singleProductLoader.isLoaded && (
+      {singleProductStore.isLoaded && (
         <div className={styles['product__related-container']}>
           <Text view="p-20" weight="bold">
             Related Items
           </Text>
-          <InfiniteGrid products={productsLoader.list} loadMore={load} hasMore={productsLoader.hasMore} />
+          <InfiniteGrid products={productsStore.list} loadMore={load} hasMore={productsStore.hasMore} />
         </div>
       )}
     </div>
