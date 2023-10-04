@@ -38,7 +38,7 @@ export class UserStore {
   }
 
   get isLoaded() {
-    return this._meta == Meta.success;
+    return this._meta == Meta.success || this._meta == Meta.error;
   }
 
   get isLoggedIn() {
@@ -59,7 +59,6 @@ export class UserStore {
 
   get ordersList() {
     if (this._user && RootStore.products.isLoaded) {
-      console.log(this._user.orders);
       return this._user.orders.map((order) => ({
         id: order.id,
         status: order.status,
@@ -95,6 +94,7 @@ export class UserStore {
       }
     } catch {
       this._meta = Meta.error;
+      this._loggedIn = false;
     }
   }
 
@@ -120,6 +120,7 @@ export class UserStore {
       }
       if (response.data.error) {
         this._meta = Meta.error;
+        this._loggedIn = false;
         this._errorMessage = response.data.error;
       } else {
         this._errorMessage = '';
@@ -127,6 +128,7 @@ export class UserStore {
     } catch (error) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       this._errorMessage = (error as any).response ? (error as any).response.data.error : 'Unknown error occurred';
+      this._loggedIn = false;
       this._meta = Meta.error;
     }
   }
@@ -153,6 +155,7 @@ export class UserStore {
       }
       if (response.data.error) {
         this._meta = Meta.error;
+        this._loggedIn = false;
         this._errorMessage = response.data.error;
       } else {
         this._errorMessage = '';
@@ -160,6 +163,7 @@ export class UserStore {
     } catch (error) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       this._errorMessage = (error as any).response ? (error as any).response.data.error : 'Unknown error occurred';
+      this._loggedIn = false;
       this._meta = Meta.error;
     }
   }
