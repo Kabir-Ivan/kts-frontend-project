@@ -94,6 +94,7 @@ export class UserStore {
       }
     } catch {
       this._meta = Meta.error;
+      this._loggedIn = false;
     }
   }
 
@@ -119,6 +120,7 @@ export class UserStore {
       }
       if (response.data.error) {
         this._meta = Meta.error;
+        this._loggedIn = false;
         this._errorMessage = response.data.error;
       } else {
         this._errorMessage = '';
@@ -126,6 +128,7 @@ export class UserStore {
     } catch (error) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       this._errorMessage = (error as any).response ? (error as any).response.data.error : 'Unknown error occurred';
+      this._loggedIn = false;
       this._meta = Meta.error;
     }
   }
@@ -152,6 +155,7 @@ export class UserStore {
       }
       if (response.data.error) {
         this._meta = Meta.error;
+        this._loggedIn = false;
         this._errorMessage = response.data.error;
       } else {
         this._errorMessage = '';
@@ -159,6 +163,7 @@ export class UserStore {
     } catch (error) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       this._errorMessage = (error as any).response ? (error as any).response.data.error : 'Unknown error occurred';
+      this._loggedIn = false;
       this._meta = Meta.error;
     }
   }
