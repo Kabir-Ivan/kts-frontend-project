@@ -6,6 +6,7 @@ import { NavLink, Route, Routes } from 'react-router-dom';
 import CartIconHeader from 'components/CartIconHeader';
 import Footer from 'components/Footer';
 import Header from 'components/Header';
+import PrivateRoute from 'components/PrivateRoute';
 import UserIcon from 'components/icons/UserIcon';
 import config from 'config/config';
 import About from 'pages/About';
@@ -21,7 +22,7 @@ import Profile from 'pages/Profile';
 import Recover from 'pages/Recover';
 import Signup from 'pages/Signup';
 import Success from 'pages/Success';
-import { useQueryParamsStoreInit, useProductsStoreInit } from 'store/globals/RootStore';
+import RootStore, { useQueryParamsStoreInit, useProductsStoreInit } from 'store/globals/RootStore';
 
 function App() {
   useQueryParamsStoreInit();
@@ -36,9 +37,19 @@ function App() {
             <NavLink to={config.ENDPOINTS.CART}>
               <CartIconHeader />
             </NavLink>
-            <NavLink to={config.ENDPOINTS.PROFILE}>
-              <UserIcon />
-            </NavLink>
+            <PrivateRoute
+              condition={RootStore.user.isLoggedIn && !RootStore.user.isError}
+              onTrue={
+                <NavLink to={config.ENDPOINTS.PROFILE}>
+                  <UserIcon />
+                </NavLink>
+              }
+              onFalse={
+                <NavLink to={config.ENDPOINTS.LOGIN}>
+                  <UserIcon />
+                </NavLink>
+              }
+            />
           </>
         }
       />

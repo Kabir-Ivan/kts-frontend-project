@@ -38,7 +38,7 @@ export class UserStore {
   }
 
   get isLoaded() {
-    return this._meta == Meta.success;
+    return this._meta == Meta.success || this._meta == Meta.error;
   }
 
   get isLoggedIn() {
@@ -59,7 +59,6 @@ export class UserStore {
 
   get ordersList() {
     if (this._user && RootStore.products.isLoaded) {
-      console.log(this._user.orders);
       return this._user.orders.map((order) => ({
         id: order.id,
         status: order.status,
